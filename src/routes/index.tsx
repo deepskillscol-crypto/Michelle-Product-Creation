@@ -100,6 +100,7 @@ function Index() {
               <p className="hero-subtitle">Growth Partner · E-commerce &amp; Ad Platforms · Product Ownership</p>
               <p className="hero-details">8+ years across Amazon, Microsoft Advertising, SaaS &amp; fintech · U.S. + LATAM · EN · ES · PT</p>
               <div className="hero-buttons"><Button asChild variant="hero" size="lg"><a {...deckLink}>View portfolio deck<ArrowUpRight /></a></Button><Button asChild variant="heroOutline" size="lg"><a href="#book"><Calendar />Book a call</a></Button><Button asChild variant="heroOutline" size="lg"><a {...resumeLink}><ArrowDownToLine />Download résumé</a></Button></div>
+              <a href={LINKEDIN_URL} target="_blank" rel="noopener noreferrer" aria-label="Michelle Pulido on LinkedIn" className="hero-linkedin"><Linkedin size={14} />LinkedIn<ArrowUpRight size={12} /></a>
             </div>
             <div className="portrait-area reveal">
               <div className="portrait-ring"><div className="portrait" role="img" aria-label="Circular photo placeholder for Michelle Pulido"><span className="portrait-monogram">mp.</span><span className="portrait-caption">Photo coming soon</span></div></div>
