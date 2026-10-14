@@ -1,9 +1,9 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useRef, useState, type MouseEvent } from "react";
-import { ArrowDown, ArrowDownToLine, ArrowRight, ArrowUpRight, Award, BarChart3, BriefcaseBusiness, Calendar, Check, FileText, GraduationCap, Handshake, Layers3, Linkedin, Mail, Menu, Moon, Presentation, Sun, X } from "lucide-react";
+import { ArrowDown, ArrowDownToLine, ArrowRight, ArrowUpRight, Award, BarChart3, BriefcaseBusiness, Calendar, Check, FileText, GraduationCap, Handshake, Layers3, Linkedin, Mail, Menu, Moon, Play, Presentation, Sun, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { PORTFOLIO_DECK_URL, RESUME_URL, IS_PORTFOLIO_PLACEHOLDER, CALENDLY_URL } from "@/config/links";
+import { PORTFOLIO_DECK_URL, RESUME_URL, IS_PORTFOLIO_PLACEHOLDER, CALENDLY_URL, LINKEDIN_URL, INTRO_VIDEO_URL } from "@/config/links";
 import { education, experienceTracks } from "@/config/profile";
 
 export const Route = createFileRoute("/")({
@@ -84,6 +84,7 @@ function Index() {
           <nav aria-label="Main navigation" className={`nav-links ${menuOpen ? "is-open" : ""}`} id="main-navigation">{navigation.map(([label, id]) => <a key={id} href={`#${id}`} onClick={() => setMenuOpen(false)}>{label}</a>)}</nav>
           <div className="nav-actions">
             <Button variant="ghost" size="icon" aria-label={dark ? "Use light theme" : "Use dark theme"} title={dark ? "Use light theme" : "Use dark theme"} onClick={toggleTheme}>{dark ? <Sun size={16} /> : <Moon size={16} />}</Button>
+            <Button asChild variant="ghost" size="icon" className="nav-linkedin"><a href={LINKEDIN_URL} target="_blank" rel="noopener noreferrer" aria-label="Michelle Pulido on LinkedIn" title="Michelle Pulido on LinkedIn"><Linkedin size={16} /></a></Button>
             <Button asChild className="nav-resume" size="sm"><a href="#book"><Calendar />Book a call</a></Button>
             <Button className="menu-trigger" variant="ghost" size="icon" aria-label={menuOpen ? "Close menu" : "Open menu"} aria-expanded={menuOpen} aria-controls="main-navigation" onClick={() => setMenuOpen(!menuOpen)}>{menuOpen ? <X /> : <Menu />}</Button>
           </div>
@@ -106,6 +107,14 @@ function Index() {
             </div>
           </div>
           <a href="#impact" className="hero-bottom">Explore the impact<ArrowDown size={13} /></a>
+        </section>
+        <section className="section video-section" aria-labelledby="video-heading">
+          <div className="container-site">
+            <SectionHeading number="00" title="Meet Michelle in 90 seconds" id="video-heading" note="Intro video" />
+            <p className="video-sub">How I think about account growth — and what working with me looks like.</p>
+            <IntroVideo />
+            <p className="video-live-link">Prefer to talk live? <a href="#book">Book a call<ArrowRight size={12} /></a></p>
+          </div>
         </section>
         <section id="impact" className="impact-section" aria-label="Impact at a glance">
           <div className="container-site impact-grid">
@@ -138,13 +147,60 @@ function Index() {
         <section id="resume" className="resume-band" aria-labelledby="resume-heading"><div className="container-site resume-inner"><div className="resume-title"><FileText className="text-primary" size={28} strokeWidth={1.4} /><div><h2 id="resume-heading">Latest résumé</h2><p>Updated October 2026</p></div></div><Button asChild variant="outline"><a {...resumeLink}><ArrowDownToLine />Download PDF</a></Button></div></section>
         <section className="section" aria-labelledby="education-heading"><div className="container-site"><SectionHeading number="04" title="Education & certifications" id="education-heading" /><div className="education-grid">{education.map(([title, institution, date], index) => <article key={title} className="education-item reveal">{index === 0 || index === 5 ? <GraduationCap size={19} strokeWidth={1.5} /> : <Check size={18} strokeWidth={1.5} />}<div><h3>{title}</h3><p>{institution && `${institution} · `}{date}</p></div></article>)}</div></div></section>
         <section ref={bookSectionRef} id="book" className="section booking-section" aria-labelledby="book-heading"><div className="container-site"><SectionHeading number="05" title="Book a call with me" id="book-heading" note="30 minutes" /><p className="booking-sub">30 minutes to talk about your accounts, your growth goals, and where I can help.</p><div className="booking-chips"><span>30 min</span><span>Video call</span><span>U.S. & LATAM time zones</span></div><article className={`glass-card booking-card${calendlyLoaded ? " calendly-loaded" : ""}`}><div className="calendly-inline-widget" data-url={`${CALENDLY_URL}?hide_gdpr_banner=1&primary_color=2662d9`} style={{ minWidth: "320px", height: "700px" }} /><Button asChild className="calendly-fallback" variant="outline"><a href={CALENDLY_URL} target="_blank" rel="noopener noreferrer">Open scheduling page<ArrowUpRight /></a></Button></article></div></section>
-        <section id="contact" className="contact-section" aria-labelledby="contact-heading"><div className="container-site contact-layout"><div><div className="eyebrow text-primary"><span className="eyebrow-line" />Let’s connect</div><h2 id="contact-heading">Your next growth partner.<br />Let’s talk.</h2><p className="location-note">Based in Bogotá · Works U.S. hours · Available to travel</p></div><div className="contact-details"><a href="mailto:michelleescobar2703@gmail.com"><Mail size={17} />michelleescobar2703@gmail.com<ArrowUpRight size={14} /></a><a href="https://www.linkedin.com/in/michellepulidoescobar/" target="_blank" rel="noopener noreferrer"><Linkedin size={17} />Connect on LinkedIn<ArrowUpRight size={14} /></a></div></div></section>
+        <section id="contact" className="contact-section" aria-labelledby="contact-heading"><div className="container-site contact-layout"><div><div className="eyebrow text-primary"><span className="eyebrow-line" />Let’s connect</div><h2 id="contact-heading">Your next growth partner.<br />Let’s talk.</h2><p className="location-note">Based in Bogotá · Works U.S. hours · Available to travel</p></div><div className="contact-details"><a href="mailto:michelleescobar2703@gmail.com"><Mail size={17} />michelleescobar2703@gmail.com<ArrowUpRight size={14} /></a><a href={LINKEDIN_URL} target="_blank" rel="noopener noreferrer" aria-label="Michelle Pulido on LinkedIn"><Linkedin size={17} />Connect on LinkedIn<ArrowUpRight size={14} /></a></div></div></section>
       </main>
-      <footer><div className="container-site footer-inner"><span>© 2026 Michelle Pulido.</span><a href="#home" className="flex items-center gap-2">Back to top<ArrowRight size={12} className="-rotate-90" /></a></div></footer>
+      <footer><div className="container-site footer-inner"><span>© 2026 Michelle Pulido.</span><div className="footer-links"><a href={LINKEDIN_URL} target="_blank" rel="noopener noreferrer" aria-label="Michelle Pulido on LinkedIn" className="flex items-center gap-2"><Linkedin size={12} />LinkedIn</a><a href="#home" className="flex items-center gap-2">Back to top<ArrowRight size={12} className="-rotate-90" /></a></div></div></footer>
       <Dialog open={missingAsset !== null} onOpenChange={(open) => { if (!open) setMissingAsset(null); }}><DialogContent><DialogHeader><DialogTitle>{missingAsset === "deck" ? "Portfolio deck coming soon" : "Résumé PDF coming soon"}</DialogTitle><DialogDescription>{missingAsset === "deck" ? "The portfolio link hasn’t been added yet. Contact Michelle for her latest work." : "The résumé PDF hasn’t been uploaded yet. Contact Michelle for her latest résumé."}</DialogDescription></DialogHeader><Button asChild><a href="mailto:michelleescobar2703@gmail.com"><Mail />Contact Michelle</a></Button></DialogContent></Dialog>
     </>
   );
 }
 function SectionHeading({ number, title, id, note }: { number: string; title: string; id: string; note?: string }) {
   return <div className="section-heading"><span className="section-number">{number} /</span><h2 id={id}>{title}</h2>{note && <span className="section-note">{note}</span>}</div>;
+}
+
+type VideoSource = { kind: "embed" | "mp4"; src: string };
+function getVideoSource(url: string): VideoSource | null {
+  const value = url.trim();
+  if (!value) return null;
+  const youtube = value.match(/(?:youtube\.com\/(?:watch\?v=|shorts\/|embed\/)|youtu\.be\/)([\w-]{6,})/);
+  if (youtube) return { kind: "embed", src: `https://www.youtube-nocookie.com/embed/${youtube[1]}?rel=0` };
+  const vimeo = value.match(/vimeo\.com\/(\d+)/);
+  if (vimeo) return { kind: "embed", src: `https://player.vimeo.com/video/${vimeo[1]}` };
+  const loom = value.match(/loom\.com\/(?:share|embed)\/([\w-]+)/);
+  if (loom) return { kind: "embed", src: `https://www.loom.com/embed/${loom[1]}` };
+  if (/\.mp4(\?|#|$)/i.test(value)) return { kind: "mp4", src: value };
+  return { kind: "embed", src: value };
+}
+
+function IntroVideo() {
+  const [playing, setPlaying] = useState(false);
+  const source = getVideoSource(INTRO_VIDEO_URL);
+  if (!source) {
+    return (
+      <div className="glass-card video-card reveal">
+        <div className="video-frame video-placeholder">
+          <span className="video-play" aria-hidden="true"><Play size={26} fill="currentColor" /></span>
+          <span className="video-placeholder-label">Intro video coming soon</span>
+        </div>
+      </div>
+    );
+  }
+  return (
+    <div className="glass-card video-card reveal">
+      <div className="video-frame">
+        {playing ? (
+          source.kind === "mp4" ? (
+            <video src={source.src} controls playsInline autoPlay className="video-media" />
+          ) : (
+            <iframe src={source.src} title="Meet Michelle in 90 seconds — intro video" className="video-media" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen referrerPolicy="strict-origin-when-cross-origin" />
+          )
+        ) : (
+          <button type="button" className="video-poster" onClick={() => setPlaying(true)} aria-label="Play intro video">
+            <span className="video-play"><Play size={26} fill="currentColor" /></span>
+            <span className="video-placeholder-label">Play intro video</span>
+          </button>
+        )}
+      </div>
+    </div>
+  );
 }

@@ -169,6 +169,22 @@ h3 { font-size: 17px; font-weight: 650; margin: 0 0 12px; }
 .contact-details { display: flex; flex-direction: column; align-items: flex-start; gap: 14px; }
 .contact-details a { display: inline-flex; gap: 10px; align-items: center; color: var(--primary); font-size: 12px; }
 .location-note { margin: 0; font-size: 11px; line-height: 1.9; color: var(--muted-foreground); }
+.hero-linkedin { display: inline-flex; align-items: center; gap: 7px; margin-top: 18px; font-size: 11px; font-weight: 600; color: var(--hero-foreground); opacity: .85; }
+.hero-linkedin:hover { opacity: 1; text-decoration: underline; text-underline-offset: 3px; }
+.video-section { padding-bottom: 20px; }
+.video-sub { font-size: 12px; line-height: 1.9; color: var(--muted-foreground); max-width: 560px; margin: -16px 0 24px; }
+.video-card { padding: 14px; max-width: 860px; }
+.video-frame { aspect-ratio: 16 / 9; border-radius: 8px; overflow: hidden; position: relative; background: var(--secondary); }
+.video-media { width: 100%; height: 100%; border: 0; display: block; }
+.video-placeholder, .video-poster { width: 100%; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 16px; background: var(--hero-gradient); color: var(--hero-foreground); }
+.video-poster { border: 0; cursor: pointer; font-family: inherit; }
+.video-play { width: 64px; height: 64px; border-radius: 50%; display: grid; place-items: center; background: var(--hero-glass); border: 1px solid var(--hero-border); backdrop-filter: blur(12px); transition: transform .2s; }
+.video-poster:hover .video-play { transform: scale(1.08); }
+.video-placeholder-label { font-size: 11px; font-weight: 600; letter-spacing: 0.02em; opacity: .9; }
+.video-live-link { font-size: 11px; color: var(--muted-foreground); margin: 18px 0 0; }
+.video-live-link a { display: inline-flex; align-items: center; gap: 5px; color: var(--primary); font-weight: 600; }
+.video-live-link a:hover { text-decoration: underline; text-underline-offset: 3px; }
+.footer-links { display: flex; align-items: center; gap: 20px; }
 .booking-sub { font-size: 12px; line-height: 1.9; color: var(--muted-foreground); max-width: 560px; margin: -16px 0 14px; }
 .booking-chips { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 24px; }
 .booking-chips span { font-size: 10px; font-weight: 550; color: var(--primary); background: color-mix(in oklab, var(--primary) 7%, var(--background)); border: 1px solid color-mix(in oklab, var(--primary) 20%, transparent); padding: 5px 11px; border-radius: 999px; }
@@ -182,7 +198,7 @@ footer { padding-block: 23px; }
 @keyframes fade-up { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
 @keyframes float-shape { to { translate: 20px 30px; rotate: 12deg; } }
 @media(min-width:1450px) { .hero-inner { min-height: 640px; } }
-@media(max-width:1050px) { .container-site { width: calc(100% - 48px); } .nav-links { gap: 16px; } .nav-resume { display:none; } .hero-inner { gap: 28px; } h1 { font-size: 39px; } .portrait-ring { width: 240px; height: 240px; } .stat { padding: 20px; } .portfolio-layout { gap: 28px; } }
+@media(max-width:1050px) { .container-site { width: calc(100% - 48px); } .nav-links { gap: 16px; } .nav-resume, .nav-linkedin { display:none; } .hero-inner { gap: 28px; } h1 { font-size: 39px; } .portrait-ring { width: 240px; height: 240px; } .stat { padding: 20px; } .portfolio-layout { gap: 28px; } }
 @media(max-width:767px) {
   html { scroll-padding-top: 85px; }
   .container-site { width: calc(100% - 40px); }
@@ -206,5 +222,6 @@ footer { padding-block: 23px; }
   .resume-inner { align-items: flex-start; } .resume-title { gap: 12px; } .resume-title h2 { font-size: 16px; } .resume-inner a { font-size: 10px; padding-inline: 12px; }
   .education-grid { grid-template-columns: 1fr; } .contact-layout { flex-direction: column; align-items: flex-start; gap: 25px; } .contact-layout h2 { font-size: 28px; } .contact-details a { font-size: 11px; } .footer-inner { font-size: 9px; }
   .booking-sub { font-size: 11px; margin-top: -12px; } .booking-card { padding: 14px 12px 18px; } .calendly-fallback { font-size: 11px; }
+  .video-sub { font-size: 11px; margin-top: -12px; } .video-card { padding: 10px; } .video-play { width: 54px; height: 54px; } .video-placeholder-label { font-size: 10px; } .footer-links { gap: 14px; }
 }
 @media(prefers-reduced-motion:reduce) { html { scroll-behavior: auto; } *, *::before, *::after { animation: none !important; transition: none !important; } }
