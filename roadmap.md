@@ -1,4 +1,4 @@
-# Michelle Pulido homepage
-- [x] Build the one-page brand home with all supplied content and styling.
-- [x] Wire shared portfolio and résumé links with honest missing-asset states.
-- [x] Verify mobile, desktop, navigation, and theme behavior.
+# Roadmap
+
+- [ ] Add "MBIT" section (current Master's at Universidad de los Andes) with Uniandes logo
+- [ ] Add Michelle's photo to the hero (circular, replacing placeholder)
