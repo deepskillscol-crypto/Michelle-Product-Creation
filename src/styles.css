@@ -251,3 +251,9 @@ footer { padding-block: 23px; }
   .video-sub { font-size: 11px; margin-top: -12px; } .video-card { padding: 10px; } .video-play { width: 54px; height: 54px; } .video-placeholder-label { font-size: 10px; } .footer-links { gap: 14px; }
 }
 @media(prefers-reduced-motion:reduce) { html { scroll-behavior: auto; } *, *::before, *::after { animation: none !important; transition: none !important; } }
+
+.lang-switch { display: inline-flex; gap: 2px; padding: 2px; border-radius: 999px; border: 1px solid var(--border); background: color-mix(in oklab, var(--card) 80%, transparent); }
+.lang-switch button { font-size: 0.68rem; font-weight: 600; letter-spacing: 0.04em; padding: 0.3rem 0.5rem; border-radius: 999px; color: var(--muted-foreground); transition: background-color .2s, color .2s; }
+.lang-switch button:hover { color: var(--foreground); }
+.lang-switch button.is-active { background: var(--primary); color: var(--primary-foreground); }
+@media (max-width: 420px) { .lang-switch button { padding: 0.25rem 0.4rem; font-size: 0.62rem; } }
