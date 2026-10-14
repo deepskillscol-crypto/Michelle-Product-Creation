@@ -4,7 +4,8 @@ import { ArrowDown, ArrowDownToLine, ArrowRight, ArrowUpRight, Award, BarChart3,
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { PORTFOLIO_DECK_URL, RESUME_URL, IS_PORTFOLIO_PLACEHOLDER, CALENDLY_URL, LINKEDIN_URL, INTRO_VIDEO_URL, WHATSAPP_URL } from "@/config/links";
-import { getEducation, getExperienceTracks, testimonials, type ExperienceTrack } from "@/config/profile";
+import { credentials, AD_PLATFORMS_CERTIFIED, type CredentialCategory } from "@/data/credentials";
+import { getExperienceTracks, testimonials, type ExperienceTrack } from "@/config/profile";
 import { dictionaries, LANGS, type Lang, type Dict } from "@/config/i18n";
 import michellePhoto from "@/assets/michelle-pulido.jpg.asset.json";
 import uniandesLogo from "@/assets/uniandes-logo.png.asset.json";
@@ -21,7 +22,7 @@ export const Route = createFileRoute("/")({
   component: Index,
 });
 
-const navIds = ["impact", "experience", "portfolio", "resume", "book", "contact"] as const;
+const navIds = ["impact", "experience", "portfolio", "resume", "credentials", "book", "contact"] as const;
 const serviceIcons = [BarChart3, Handshake, Layers3];
 
 function Index() {
@@ -31,7 +32,6 @@ function Index() {
   const [lang, setLang] = useState<Lang>("en");
   const t = dictionaries[lang];
   const experienceTracks = getExperienceTracks(lang);
-  const education = getEducation(lang);
   const [activeTrack, setActiveTrack] = useState(experienceTracks[0]?.id ?? "");
   useEffect(() => {
     const saved = window.localStorage.getItem("michelle-lang") as Lang | null;
@@ -186,7 +186,7 @@ function Index() {
             </article>
           </div>
         </section>
-        <section className="section" aria-labelledby="education-heading"><div className="container-site"><SectionHeading number="05" title={t.eduTitle} id="education-heading" /><div className="education-grid">{education.map(([title, institution, date], index) => <article key={title} className="education-item reveal">{index === 0 || index === 5 ? <GraduationCap size={19} strokeWidth={1.5} /> : <Check size={18} strokeWidth={1.5} />}<div><h3>{title}</h3><p>{institution && `${institution} · `}{date}</p></div></article>)}</div></div></section>
+        <CredentialsSection t={t} />
         <section ref={bookSectionRef} id="book" className="section booking-section" aria-labelledby="book-heading"><div className="container-site"><SectionHeading number="06" title={t.bookTitle} id="book-heading" note={t.bookNote} /><p className="booking-sub">{t.bookSub}</p><div className="booking-chips">{t.bookChips.map((c) => <span key={c}>{c}</span>)}</div><article className={`glass-card booking-card${calendlyLoaded ? " calendly-loaded" : ""}`}><div className="calendly-inline-widget" data-url={`${CALENDLY_URL}?hide_gdpr_banner=1&primary_color=2662d9`} style={{ minWidth: "320px", height: "700px" }} /><Button asChild className="calendly-fallback" variant="outline"><a href={CALENDLY_URL} target="_blank" rel="noopener noreferrer">{t.openScheduling}<ArrowUpRight /></a></Button></article></div></section>
         <section id="contact" className="contact-section" aria-labelledby="contact-heading"><div className="container-site contact-layout"><div><div className="eyebrow text-primary"><span className="eyebrow-line" />{t.connect}</div><h2 id="contact-heading">{t.contactTitle1}<br />{t.contactTitle2}</h2><p className="location-note">{t.location}</p></div><div className="contact-details"><a href="mailto:michelleescobar2703@gmail.com"><Mail size={17} />michelleescobar2703@gmail.com<ArrowUpRight size={14} /></a><a href={LINKEDIN_URL} target="_blank" rel="noopener noreferrer" aria-label={t.linkedinAria}><Linkedin size={17} />{t.linkedinConnect}<ArrowUpRight size={14} /></a><a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer" aria-label={t.whatsappAria}><MessageCircle size={17} />{t.whatsappChat}<ArrowUpRight size={14} /></a></div></div></section>
       </main>
@@ -212,6 +212,27 @@ function TimelineItem({ item, current, t }: { item: ExperienceTrack["items"][num
         {open && <div className="result-chip result-panel"><span>{item.result}</span></div>}
       </div>
     </article>
+  );
+}
+const credentialFilters: ("all" | CredentialCategory)[] = ["all", "events", "ads", "product", "languages", "education"];
+function CredentialsSection({ t }: { t: Dict }) {
+  const [filter, setFilter] = useState<"all" | CredentialCategory>("all");
+  const items = credentials.filter((c) => filter === "all" || c.category === filter).sort((a, b) => b.sortDate.localeCompare(a.sortDate));
+  return (
+    <section id="credentials" className="section" aria-labelledby="credentials-heading"><div className="container-site">
+      <SectionHeading number="05" title={t.credTitle} id="credentials-heading" />
+      <p className="booking-sub">{t.credSub}</p>
+      <p className="cred-strip"><Award size={15} />{t.credStrip} <strong>{AD_PLATFORMS_CERTIFIED}</strong></p>
+      <div className="cred-filters" role="group" aria-label={t.credTitle}>{credentialFilters.map((f) => <button key={f} type="button" aria-pressed={filter === f} className={filter === f ? "is-active" : ""} onClick={() => setFilter(f)}>{t.credFilters[f]}</button>)}</div>
+      <div className="cred-grid">{items.map((c) => (
+        <article key={c.title} className={`glass-card cred-card${c.category === "events" ? " is-event" : ""}`}>
+          <div className="cred-top"><span className="cred-issuer">{c.issuer}</span>{c.badge && <span className="cred-badge">{c.badge === "Speaker" ? t.credSpeaker : t.credEvent}</span>}</div>
+          <h3>{c.title}</h3>
+          {c.detail && <p className="cred-detail">{c.detail}</p>}
+          <div className="cred-bottom"><span className="cred-date">{c.date}</span>{c.url && <a href={c.url} target="_blank" rel="noopener noreferrer">{t.credView}<ArrowUpRight size={12} /></a>}</div>
+        </article>
+      ))}</div>
+    </div></section>
   );
 }
 function SectionHeading({ number, title, id, note }: { number: string; title: string; id: string; note?: string }) {

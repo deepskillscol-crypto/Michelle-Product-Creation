@@ -2,7 +2,8 @@ export type Lang = "en" | "es" | "pt";
 export const LANGS: Lang[] = ["en", "es", "pt"];
 
 const en = {
-  nav: { impact: "Impact", experience: "Experience", portfolio: "Portfolio", resume: "Résumé", book: "Book a call", contact: "Contact" },
+  credTitle: 'Credentials & Learning', credSub: 'Always learning — across ad platforms, e-commerce, product and AI.', credStrip: 'Ad platforms certified:', credFilters: { all: 'All', events: 'Events & Talks', ads: 'Ad Platforms & E-commerce', product: 'Product, Tech & AI', languages: 'Languages', education: 'Education' }, credSpeaker: 'Speaker', credEvent: 'Event', credView: 'View credential',
+  nav: { impact: "Impact", experience: "Experience", portfolio: "Portfolio", resume: "Résumé", credentials: 'Credentials', book: "Book a call", contact: "Contact" },
   langLabel: "Language",
   lightTheme: "Use light theme", darkTheme: "Use dark theme", openMenu: "Open menu", closeMenu: "Close menu",
   linkedinAria: "Michelle Pulido on LinkedIn", whatsappAria: "Chat with Michelle on WhatsApp",
@@ -39,7 +40,8 @@ const en = {
 export type Dict = typeof en;
 
 const es: Dict = {
-  nav: { impact: "Impacto", experience: "Experiencia", portfolio: "Portafolio", resume: "Hoja de vida", book: "Agendar llamada", contact: "Contacto" },
+  credTitle: 'Credenciales y aprendizaje', credSub: 'Siempre aprendiendo — en plataformas publicitarias, e-commerce, producto e IA.', credStrip: 'Plataformas publicitarias certificadas:', credFilters: { all: 'Todas', events: 'Eventos y charlas', ads: 'Plataformas publicitarias y e-commerce', product: 'Producto, tecnología e IA', languages: 'Idiomas', education: 'Educación' }, credSpeaker: 'Ponente', credEvent: 'Evento', credView: 'Ver credencial',
+  nav: { impact: "Impacto", experience: "Experiencia", portfolio: "Portafolio", resume: "Hoja de vida", credentials: 'Credenciales', book: "Agendar llamada", contact: "Contacto" },
   langLabel: "Idioma",
   lightTheme: "Usar tema claro", darkTheme: "Usar tema oscuro", openMenu: "Abrir menú", closeMenu: "Cerrar menú",
   linkedinAria: "Michelle Pulido en LinkedIn", whatsappAria: "Chatea con Michelle por WhatsApp",
@@ -74,7 +76,8 @@ const es: Dict = {
 };
 
 const pt: Dict = {
-  nav: { impact: "Impacto", experience: "Experiência", portfolio: "Portfólio", resume: "Currículo", book: "Agendar conversa", contact: "Contato" },
+  credTitle: 'Credenciais e aprendizado', credSub: 'Sempre aprendendo — em plataformas de anúncios, e-commerce, produto e IA.', credStrip: 'Plataformas de anúncios certificadas:', credFilters: { all: 'Todas', events: 'Eventos e palestras', ads: 'Plataformas de anúncios e e-commerce', product: 'Produto, tecnologia e IA', languages: 'Idiomas', education: 'Formação' }, credSpeaker: 'Palestrante', credEvent: 'Evento', credView: 'Ver credencial',
+  nav: { impact: "Impacto", experience: "Experiência", portfolio: "Portfólio", resume: "Currículo", credentials: 'Credenciais', book: "Agendar conversa", contact: "Contato" },
   langLabel: "Idioma",
   lightTheme: "Usar tema claro", darkTheme: "Usar tema escuro", openMenu: "Abrir menu", closeMenu: "Fechar menu",
   linkedinAria: "Michelle Pulido no LinkedIn", whatsappAria: "Converse com Michelle pelo WhatsApp",
