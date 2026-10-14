@@ -128,6 +128,18 @@ h3 { font-size: 17px; font-weight: 650; margin: 0 0 12px; }
 .timeline-company { color: var(--muted-foreground); font-size: 11px; margin: 0 0 12px; }
 .timeline-description { color: var(--muted-foreground); font-size: 12px; line-height: 1.85; margin: 0 0 13px; max-width: 720px; }
 .result-chip { display: inline-flex; gap: 9px; align-items: baseline; font-size: 10px; line-height: 1.6; color: var(--primary); background: color-mix(in oklab, var(--primary) 6%, var(--background)); padding: 6px 10px; border-radius: 5px; }
+.track-connector { font-size: 11px; color: var(--muted-foreground); margin: -12px 0 16px; }
+.track-toggle { display: inline-flex; gap: 4px; padding: 4px; border: 1px solid var(--border); border-radius: 10px; background: var(--background); margin: 0 0 36px; }
+.track-toggle-btn { font-family: inherit; font-size: 11px; font-weight: 600; padding: 9px 16px; border-radius: 7px; border: 0; background: transparent; color: var(--muted-foreground); cursor: pointer; transition: color .2s, background .2s; }
+.track-toggle-btn:hover { color: var(--foreground); }
+.track-toggle-btn.is-active { background: var(--primary); color: var(--primary-foreground); }
+.track-toggle-btn.is-active.track-accent-lavender { background: var(--lavender); color: oklch(0.28 0.05 293); }
+.experience-track { display: none; }
+.experience-track.is-active { display: block; }
+.experience-track[data-accent="lavender"] .timeline-dot { border-color: var(--lavender); }
+.experience-track[data-accent="lavender"] .timeline-item:first-child .timeline-dot { background: var(--lavender); box-shadow: 0 0 0 4px color-mix(in oklab, var(--lavender) 14%, transparent); }
+.experience-track[data-accent="lavender"] .result-chip { color: color-mix(in oklab, var(--lavender) 65%, var(--foreground)); background: color-mix(in oklab, var(--lavender) 10%, var(--background)); }
+.track-label { display: none; }
 .result-label { font-size: 8px; font-weight: 700; text-transform: uppercase; }
 .portfolio-layout { display: grid; grid-template-columns: .85fr 1.25fr; gap: 52px; align-items: center; }
 .portfolio-info { padding: 29px; }
@@ -177,6 +189,13 @@ footer { padding-block: 23px; }
   .section { padding-block: 42px; } h2 { font-size: 25px; } .section-heading { gap: 10px; margin-bottom: 25px; } .section-heading .section-note { display: none; }
   .services-grid { grid-template-columns: 1fr; gap: 14px; } .service { padding: 24px; } .service-icon { margin-bottom: 18px; } .service p { font-size: 12px; }
   .timeline-item { grid-template-columns: 1fr; gap: 10px; padding-left: 22px; padding-bottom: 32px; } .timeline-date { display: flex; align-items: center; gap: 12px; } .current-label { margin:0; } .timeline-role { font-size: 15px; } .result-chip { font-size: 9px; flex-wrap: wrap; gap: 5px; }
+  .track-connector { margin: 0 0 14px; }
+  .track-toggle { display: none; }
+  .experience-track, .experience-track.is-active { display: block; }
+  .experience-track + .experience-track { margin-top: 38px; }
+  .track-label { display: block; margin: 0 0 16px; }
+  .track-name { font-size: 15px; margin: 0 0 4px; }
+  .track-subtitle { font-size: 10px; line-height: 1.7; color: var(--muted-foreground); margin: 0; }
   .portfolio-layout { grid-template-columns: 1fr; gap: 20px; } .portfolio-info { padding: 24px; } .deck-cover { padding: 25px; } .deck-cover h3 { font-size: 28px; }
   .resume-inner { align-items: flex-start; } .resume-title { gap: 12px; } .resume-title h2 { font-size: 16px; } .resume-inner a { font-size: 10px; padding-inline: 12px; }
   .education-grid { grid-template-columns: 1fr; } .contact-layout { flex-direction: column; align-items: flex-start; gap: 25px; } .contact-layout h2 { font-size: 28px; } .contact-details a { font-size: 11px; } .footer-inner { font-size: 9px; }

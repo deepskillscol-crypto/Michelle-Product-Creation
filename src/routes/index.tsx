@@ -4,7 +4,7 @@ import { ArrowDown, ArrowDownToLine, ArrowRight, ArrowUpRight, Award, BarChart3,
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { PORTFOLIO_DECK_URL, RESUME_URL, IS_PORTFOLIO_PLACEHOLDER } from "@/config/links";
-import { education, experience } from "@/config/profile";
+import { education, experienceTracks } from "@/config/profile";
 
 export const Route = createFileRoute("/")({
   head: () => ({ meta: [
@@ -29,6 +29,7 @@ function Index() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [dark, setDark] = useState(false);
   const [missingAsset, setMissingAsset] = useState<"deck" | "resume" | null>(null);
+  const [activeTrack, setActiveTrack] = useState(experienceTracks[0].id);
   useEffect(() => {
     const isDark = window.localStorage.getItem("michelle-theme") === "dark" || (!window.localStorage.getItem("michelle-theme") && window.matchMedia("(prefers-color-scheme: dark)").matches);
     setDark(isDark);
@@ -96,7 +97,18 @@ function Index() {
           <div className="container-site"><SectionHeading number="01" title="What I do" id="what-heading" note="Clarity. Partnership. Growth." /><div className="services-grid">{services.map(({ icon: Icon, title, copy }, index) => <article key={title} className="glass-card service reveal"><span className="service-index">0{index + 1}</span><div className="service-icon"><Icon size={21} strokeWidth={1.6} /></div><h3>{title}</h3><p>{copy}</p></article>)}</div></div>
         </section>
         <section id="experience" className="section experience-section" aria-labelledby="experience-heading">
-          <div className="container-site"><SectionHeading number="02" title="Experience that moves the needle" id="experience-heading" note="U.S. + LATAM · 2021–Present" /><div className="timeline">{experience.map((item, index) => <article key={item.company} className="timeline-item reveal"><span className="timeline-dot" aria-hidden="true" /><div className="timeline-date">{item.dates}{index === 0 && <span className="current-label">CURRENT ROLE</span>}</div><div><h3 className="timeline-role">{item.role}</h3><p className="timeline-company">{item.company}</p><p className="timeline-description">{item.description}</p><div className="result-chip"><span className="result-label">Result</span><span>{item.result}</span></div></div></article>)}</div></div>
+          <div className="container-site"><SectionHeading number="02" title="Experience that moves the needle" id="experience-heading" note="U.S. + LATAM · 2021–Present" />
+            <p className="track-connector">Two lenses, one outcome: accounts that grow.</p>
+            <div className="track-toggle" role="tablist" aria-label="Experience tracks">
+              {experienceTracks.map((track) => <button key={track.id} type="button" role="tab" aria-selected={activeTrack === track.id} className={`track-toggle-btn track-accent-${track.accent}${activeTrack === track.id ? " is-active" : ""}`} onClick={() => setActiveTrack(track.id)}>{track.name}</button>)}
+            </div>
+            {experienceTracks.map((track, trackIndex) => (
+              <div key={track.id} className={`experience-track${activeTrack === track.id ? " is-active" : ""}`} data-accent={track.accent} role="tabpanel" aria-label={track.name}>
+                <div className="track-label"><h3 className="track-name">{track.name}</h3><p className="track-subtitle">{track.subtitle}</p></div>
+                <div className="timeline">{track.items.map((item, index) => <article key={item.company} className="timeline-item reveal"><span className="timeline-dot" aria-hidden="true" /><div className="timeline-date">{item.dates}{trackIndex === 0 && index === 0 && <span className="current-label">CURRENT ROLE</span>}</div><div><h3 className="timeline-role">{item.role}</h3><p className="timeline-company">{item.company}</p><p className="timeline-description">{item.description}</p><div className="result-chip"><span className="result-label">Result</span><span>{item.result}</span></div></div></article>)}</div>
+              </div>
+            ))}
+          </div>
         </section>
         <section id="portfolio" className="section" aria-labelledby="portfolio-heading">
           <div className="container-site"><SectionHeading number="03" title="The work behind the results" id="portfolio-heading" note="Context → Action → Impact" /><div className="portfolio-layout"><article className="glass-card portfolio-info reveal"><div className="service-icon"><Presentation size={21} strokeWidth={1.6} /></div><h3>Growth Partner portfolio deck</h3><p>One slide per role: context, what I did, results, and what I can bring to your team.</p><Button asChild><a {...deckLink}>Open deck<ArrowUpRight /></a></Button></article><div className="deck-preview reveal">{IS_PORTFOLIO_PLACEHOLDER ? <><div className="deck-cover"><div className="deck-cover-label"><span>MICHELLE PULIDO</span><span>PORTFOLIO / 2026</span></div><div><h3>Growth Partner<br />portfolio.</h3><p>Client growth. Product thinking. Lasting partnerships.</p></div><div className="deck-cover-footer"><span>U.S. + LATAM</span><ArrowUpRight size={19} /></div></div><span className="deck-placeholder-label">Deck coming soon</span></> : <iframe src={PORTFOLIO_DECK_URL} title="Michelle Pulido Growth Partner portfolio deck" loading="lazy" allowFullScreen referrerPolicy="strict-origin-when-cross-origin" />}</div></div></div>
