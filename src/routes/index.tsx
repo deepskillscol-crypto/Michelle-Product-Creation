@@ -4,7 +4,8 @@ import { ArrowDown, ArrowDownToLine, ArrowRight, ArrowUpRight, Award, BarChart3,
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { PORTFOLIO_DECK_URL, RESUME_URL, IS_PORTFOLIO_PLACEHOLDER, CALENDLY_URL, LINKEDIN_URL, INTRO_VIDEO_URL, WHATSAPP_URL } from "@/config/links";
-import { education, experienceTracks, testimonials, type ExperienceTrack } from "@/config/profile";
+import { getEducation, getExperienceTracks, testimonials, type ExperienceTrack } from "@/config/profile";
+import { dictionaries, LANGS, type Lang, type Dict } from "@/config/i18n";
 import michellePhoto from "@/assets/michelle-pulido.jpg.asset.json";
 import uniandesLogo from "@/assets/uniandes-logo.png.asset.json";
 
@@ -20,18 +21,26 @@ export const Route = createFileRoute("/")({
   component: Index,
 });
 
-const navigation = [["Impact", "impact"], ["Experience", "experience"], ["Portfolio", "portfolio"], ["Résumé", "resume"], ["Book a call", "book"], ["Contact", "contact"]];
-const services = [
-  { icon: BarChart3, title: "Account growth", copy: "Diagnose why an account is—or isn’t—growing. Build options A/B/C, align on the strongest path, and turn the plan into action." },
-  { icon: Handshake, title: "Client partnership", copy: "Be the trusted advisor clients keep. Lead hard conversations with data, connect strategy to their goals, and protect the relationship." },
-  { icon: Layers3, title: "Product thinking", copy: "Understand why customers buy before deciding where to invest. Turn real user problems into clear priorities and focused product decisions." },
-];
+const navIds = ["impact", "experience", "portfolio", "resume", "book", "contact"] as const;
+const serviceIcons = [BarChart3, Handshake, Layers3];
 
 function Index() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [dark, setDark] = useState(false);
   const [missingAsset, setMissingAsset] = useState<"deck" | "resume" | null>(null);
+  const [lang, setLang] = useState<Lang>("en");
+  const t = dictionaries[lang];
+  const experienceTracks = getExperienceTracks(lang);
+  const education = getEducation(lang);
   const [activeTrack, setActiveTrack] = useState(experienceTracks[0]?.id ?? "");
+  useEffect(() => {
+    const saved = window.localStorage.getItem("michelle-lang") as Lang | null;
+    const browser = navigator.language.slice(0, 2) as Lang;
+    const initial = saved && LANGS.includes(saved) ? saved : LANGS.includes(browser) ? browser : "en";
+    setLang(initial);
+  }, []);
+  useEffect(() => { document.documentElement.lang = lang; }, [lang]);
+  function changeLang(next: Lang) { setLang(next); window.localStorage.setItem("michelle-lang", next); }
   const bookSectionRef = useRef<HTMLElement | null>(null);
   const [calendlyLoaded, setCalendlyLoaded] = useState(false);
   useEffect(() => {
@@ -84,12 +93,13 @@ function Index() {
       <header className="site-nav">
         <div className="container-site nav-inner">
           <a href="#home" className="brand" aria-label="Michelle Pulido home"><span className="brand-mark">mp.</span>Michelle Pulido<span className="text-primary">.</span></a>
-          <nav aria-label="Main navigation" className={`nav-links ${menuOpen ? "is-open" : ""}`} id="main-navigation">{navigation.map(([label, id]) => <a key={id} href={`#${id}`} onClick={() => setMenuOpen(false)}>{label}</a>)}</nav>
+          <nav aria-label="Main navigation" className={`nav-links ${menuOpen ? "is-open" : ""}`} id="main-navigation">{navIds.map((id) => <a key={id} href={`#${id}`} onClick={() => setMenuOpen(false)}>{t.nav[id]}</a>)}</nav>
           <div className="nav-actions">
-            <Button variant="ghost" size="icon" aria-label={dark ? "Use light theme" : "Use dark theme"} title={dark ? "Use light theme" : "Use dark theme"} onClick={toggleTheme}>{dark ? <Sun size={16} /> : <Moon size={16} />}</Button>
-            <Button asChild variant="ghost" size="icon" className="nav-linkedin"><a href={LINKEDIN_URL} target="_blank" rel="noopener noreferrer" aria-label="Michelle Pulido on LinkedIn" title="Michelle Pulido on LinkedIn"><Linkedin size={16} /></a></Button>
-            <Button asChild className="nav-resume" size="sm"><a href="#book"><Calendar />Book a call</a></Button>
-            <Button className="menu-trigger" variant="ghost" size="icon" aria-label={menuOpen ? "Close menu" : "Open menu"} aria-expanded={menuOpen} aria-controls="main-navigation" onClick={() => setMenuOpen(!menuOpen)}>{menuOpen ? <X /> : <Menu />}</Button>
+            <div className="lang-switch" role="group" aria-label={t.langLabel}>{LANGS.map((l) => <button key={l} type="button" className={lang === l ? "is-active" : ""} aria-pressed={lang === l} onClick={() => changeLang(l)}>{l.toUpperCase()}</button>)}</div>
+            <Button variant="ghost" size="icon" aria-label={dark ? t.lightTheme : t.darkTheme} title={dark ? t.lightTheme : t.darkTheme} onClick={toggleTheme}>{dark ? <Sun size={16} /> : <Moon size={16} />}</Button>
+            <Button asChild variant="ghost" size="icon" className="nav-linkedin"><a href={LINKEDIN_URL} target="_blank" rel="noopener noreferrer" aria-label={t.linkedinAria} title={t.linkedinAria}><Linkedin size={16} /></a></Button>
+            <Button asChild className="nav-resume" size="sm"><a href="#book"><Calendar />{t.bookCall}</a></Button>
+            <Button className="menu-trigger" variant="ghost" size="icon" aria-label={menuOpen ? t.closeMenu : t.openMenu} aria-expanded={menuOpen} aria-controls="main-navigation" onClick={() => setMenuOpen(!menuOpen)}>{menuOpen ? <X /> : <Menu />}</Button>
           </div>
         </div>
       </header>
@@ -98,56 +108,56 @@ function Index() {
           <div className="hero-shape shape-one" aria-hidden="true" /><div className="hero-shape shape-two" aria-hidden="true" />
           <div className="container-site hero-inner">
             <div className="hero-copy reveal">
-              <div className="eyebrow"><span className="eyebrow-line" />Growth built on trust</div>
-              <h1 id="hero-heading">I turn account data into growth plans clients trust — and keep the clients who fund them.</h1>
-              <p className="hero-subtitle">Growth Partner · E-commerce &amp; Ad Platforms · Product Ownership</p>
-              <p className="hero-details">8+ years across Amazon, Microsoft Advertising, SaaS &amp; fintech · U.S. + LATAM · EN · ES · PT</p>
-              <div className="hero-buttons"><Button asChild variant="hero" size="lg"><a {...deckLink}>View portfolio deck<ArrowUpRight /></a></Button><Button asChild variant="heroOutline" size="lg"><a href="#book"><Calendar />Book a call</a></Button><Button asChild variant="heroOutline" size="lg"><a {...resumeLink}><ArrowDownToLine />Download résumé</a></Button></div>
-              <a href={LINKEDIN_URL} target="_blank" rel="noopener noreferrer" aria-label="Michelle Pulido on LinkedIn" className="hero-linkedin"><Linkedin size={14} />LinkedIn<ArrowUpRight size={12} /></a>
+              <div className="eyebrow"><span className="eyebrow-line" />{t.eyebrow}</div>
+              <h1 id="hero-heading">{t.heroTitle}</h1>
+              <p className="hero-subtitle">{t.heroSubtitle}</p>
+              <p className="hero-details">{t.heroDetails}</p>
+              <div className="hero-buttons"><Button asChild variant="hero" size="lg"><a {...deckLink}>{t.viewDeck}<ArrowUpRight /></a></Button><Button asChild variant="heroOutline" size="lg"><a href="#book"><Calendar />{t.bookCall}</a></Button><Button asChild variant="heroOutline" size="lg"><a {...resumeLink}><ArrowDownToLine />{t.downloadResume}</a></Button></div>
+              <a href={LINKEDIN_URL} target="_blank" rel="noopener noreferrer" aria-label={t.linkedinAria} className="hero-linkedin"><Linkedin size={14} />LinkedIn<ArrowUpRight size={12} /></a>
             </div>
             <div className="portrait-area reveal">
-              <div className="portrait-ring"><img className="portrait-photo" src={michellePhoto.url} alt="Portrait of Michelle Pulido" width={290} height={290} loading="eager" /></div>
-              <div className="portrait-badge"><span className="status-dot" />Bogotá based. U.S. focused.</div>
+              <div className="portrait-ring"><img className="portrait-photo" src={michellePhoto.url} alt={t.portraitAlt} width={290} height={290} loading="eager" /></div>
+              <div className="portrait-badge"><span className="status-dot" />{t.badge}</div>
             </div>
           </div>
-          <a href="#impact" className="hero-bottom">Explore the impact<ArrowDown size={13} /></a>
+          <a href="#impact" className="hero-bottom">{t.explore}<ArrowDown size={13} /></a>
         </section>
         <section className="section video-section" aria-labelledby="video-heading">
           <div className="container-site">
-            <SectionHeading number="00" title="Meet Michelle in 90 seconds" id="video-heading" note="Intro video" />
-            <p className="video-sub">How I think about account growth — and what working with me looks like.</p>
-            <IntroVideo />
-            <p className="video-live-link">Prefer to talk live? <a href="#book">Book a call<ArrowRight size={12} /></a></p>
+            <SectionHeading number="00" title={t.videoTitle} id="video-heading" note={t.videoNote} />
+            <p className="video-sub">{t.videoSub}</p>
+            <IntroVideo t={t} />
+            <p className="video-live-link">{t.liveTalk} <a href="#book">{t.bookCall}<ArrowRight size={12} /></a></p>
           </div>
         </section>
-        <section id="impact" className="impact-section" aria-label="Impact at a glance">
+        <section id="impact" className="impact-section" aria-label={t.impactAria}>
           <div className="container-site impact-grid">
-            <article className="glass-card stat reveal"><p className="stat-value highlight">70+</p><p className="stat-label">U.S. agencies managed</p></article>
-            <article className="glass-card stat reveal"><p className="stat-value highlight">&lt;5%</p><p className="stat-label">Monthly client churn</p></article>
-            <article className="glass-card stat reveal"><p className="stat-value">8+ years</p><p className="stat-label">In ad tech, marketplaces &amp; SaaS</p></article>
-            <article className="glass-card stat reveal"><Award className="text-primary mb-2" size={20} /><p className="stat-value stat-capstone">Top capstone<br />consulting project</p><p className="stat-label">Bogotá Chamber of Commerce</p></article>
+            <article className="glass-card stat reveal"><p className="stat-value highlight">70+</p><p className="stat-label">{t.stats[0]}</p></article>
+            <article className="glass-card stat reveal"><p className="stat-value highlight">&lt;5%</p><p className="stat-label">{t.stats[1]}</p></article>
+            <article className="glass-card stat reveal"><p className="stat-value">{t.stats[2]}</p><p className="stat-label">{t.stats[3]}</p></article>
+            <article className="glass-card stat reveal"><Award className="text-primary mb-2" size={20} /><p className="stat-value stat-capstone">{t.stats[4]}<br />{t.stats[5]}</p><p className="stat-label">{t.stats[6]}</p></article>
           </div>
         </section>
         <section className="section" aria-labelledby="what-heading">
-          <div className="container-site"><SectionHeading number="01" title="What I do" id="what-heading" note="Clarity. Partnership. Growth." /><div className="services-grid">{services.map(({ icon: Icon, title, copy }, index) => <article key={title} className="glass-card service reveal"><span className="service-index">0{index + 1}</span><div className="service-icon"><Icon size={21} strokeWidth={1.6} /></div><h3>{title}</h3><p>{copy}</p></article>)}</div></div>
+          <div className="container-site"><SectionHeading number="01" title={t.whatTitle} id="what-heading" note={t.whatNote} /><div className="services-grid">{t.services.map(([title, copy], index) => { const Icon = serviceIcons[index] ?? BarChart3; return <article key={title} className="glass-card service reveal"><span className="service-index">0{index + 1}</span><div className="service-icon"><Icon size={21} strokeWidth={1.6} /></div><h3>{title}</h3><p>{copy}</p></article>; })}</div></div>
         </section>
         <section id="experience" className="section experience-section" aria-labelledby="experience-heading">
-          <div className="container-site"><SectionHeading number="02" title="Experience that moves the needle" id="experience-heading" note="U.S. + LATAM · 2021–Present" />
-            <p className="track-connector">Two lenses, one outcome: accounts that grow.</p>
-            <div className="track-toggle" role="tablist" aria-label="Experience tracks">
+          <div className="container-site"><SectionHeading number="02" title={t.expTitle} id="experience-heading" note={t.expNote} />
+            <p className="track-connector">{t.connector}</p>
+            <div className="track-toggle" role="tablist" aria-label={t.tracksAria}>
               {experienceTracks.map((track) => <button key={track.id} type="button" role="tab" aria-selected={activeTrack === track.id} className={`track-toggle-btn track-accent-${track.accent}${activeTrack === track.id ? " is-active" : ""}`} onClick={() => setActiveTrack(track.id)}>{track.name}</button>)}
             </div>
             {experienceTracks.map((track, trackIndex) => (
               <div key={track.id} className={`experience-track${activeTrack === track.id ? " is-active" : ""}`} data-accent={track.accent} role="tabpanel" aria-label={track.name}>
                 <div className="track-label"><h3 className="track-name">{track.name}</h3><p className="track-subtitle">{track.subtitle}</p></div>
-                <div className="timeline">{track.items.map((item, index) => <TimelineItem key={item.company} item={item} current={trackIndex === 0 && index === 0} />)}</div>
+                <div className="timeline">{track.items.map((item, index) => <TimelineItem key={item.company} item={item} current={trackIndex === 0 && index === 0} t={t} />)}</div>
               </div>
             ))}
           </div>
         </section>
         <section className="section testimonials-section" aria-labelledby="testimonials-heading">
           <div className="container-site">
-            <SectionHeading number="03" title="What clients say" id="testimonials-heading" note="In their words" />
+            <SectionHeading number="03" title={t.testiTitle} id="testimonials-heading" note={t.testiNote} />
             <div className="testimonials-grid">
               {testimonials.map((t) => (
                 <figure key={t.company + t.name} className="glass-card testimonial reveal">
@@ -160,44 +170,44 @@ function Index() {
           </div>
         </section>
         <section id="portfolio" className="section" aria-labelledby="portfolio-heading">
-          <div className="container-site"><SectionHeading number="04" title="The work behind the results" id="portfolio-heading" note="Context → Action → Impact" /><div className="portfolio-layout"><article className="glass-card portfolio-info reveal"><div className="service-icon"><Presentation size={21} strokeWidth={1.6} /></div><h3>Growth Partner portfolio deck</h3><p>One slide per role: context, what I did, results, and what I can bring to your team.</p><Button asChild><a {...deckLink}>Open deck<ArrowUpRight /></a></Button></article><div className="deck-preview reveal">{IS_PORTFOLIO_PLACEHOLDER ? <><div className="deck-cover"><div className="deck-cover-label"><span>MICHELLE PULIDO</span><span>PORTFOLIO / 2026</span></div><div><h3>Growth Partner<br />portfolio.</h3><p>Client growth. Product thinking. Lasting partnerships.</p></div><div className="deck-cover-footer"><span>U.S. + LATAM</span><ArrowUpRight size={19} /></div></div><span className="deck-placeholder-label">Deck coming soon</span></> : <iframe src={PORTFOLIO_DECK_URL} title="Michelle Pulido Growth Partner portfolio deck" loading="lazy" allowFullScreen referrerPolicy="strict-origin-when-cross-origin" />}</div></div></div>
+          <div className="container-site"><SectionHeading number="04" title={t.portTitle} id="portfolio-heading" note={t.portNote} /><div className="portfolio-layout"><article className="glass-card portfolio-info reveal"><div className="service-icon"><Presentation size={21} strokeWidth={1.6} /></div><h3>{t.deckTitle}</h3><p>{t.deckCopy}</p><Button asChild><a {...deckLink}>{t.openDeck}<ArrowUpRight /></a></Button></article><div className="deck-preview reveal">{IS_PORTFOLIO_PLACEHOLDER ? <><div className="deck-cover"><div className="deck-cover-label"><span>MICHELLE PULIDO</span><span>PORTFOLIO / 2026</span></div><div><h3>Growth Partner<br />portfolio.</h3><p>{t.deckTagline}</p></div><div className="deck-cover-footer"><span>U.S. + LATAM</span><ArrowUpRight size={19} /></div></div><span className="deck-placeholder-label">{t.deckSoon}</span></> : <iframe src={PORTFOLIO_DECK_URL} title="Michelle Pulido Growth Partner portfolio deck" loading="lazy" allowFullScreen referrerPolicy="strict-origin-when-cross-origin" />}</div></div></div>
         </section>
-        <section id="resume" className="resume-band" aria-labelledby="resume-heading"><div className="container-site resume-inner"><div className="resume-title"><FileText className="text-primary" size={28} strokeWidth={1.4} /><div><h2 id="resume-heading">Latest résumé</h2><p>Updated October 2026</p></div></div><Button asChild variant="outline"><a {...resumeLink}><ArrowDownToLine />Download PDF</a></Button></div></section>
+        <section id="resume" className="resume-band" aria-labelledby="resume-heading"><div className="container-site resume-inner"><div className="resume-title"><FileText className="text-primary" size={28} strokeWidth={1.4} /><div><h2 id="resume-heading">{t.resumeTitle}</h2><p>{t.resumeUpdated}</p></div></div><Button asChild variant="outline"><a {...resumeLink}><ArrowDownToLine />{t.downloadPdf}</a></Button></div></section>
         <section className="section mbit-section" aria-labelledby="mbit-heading">
           <div className="container-site">
             <article className="glass-card mbit-card reveal">
               <div className="mbit-logo"><img src={uniandesLogo.url} alt="Universidad de los Andes logo" width={84} height={84} loading="lazy" /></div>
               <div className="mbit-copy">
-                <span className="mbit-eyebrow">Currently studying</span>
+                <span className="mbit-eyebrow">{t.mbitEyebrow}</span>
                 <h2 id="mbit-heading">MBIT · Universidad de los Andes</h2>
-                <p>Graduate studies in progress alongside my full-time role — sharpening the strategy and technology toolkit I bring to every account. Admitted with a scholarship awarded for the top capstone consulting project with the Bogotá Chamber of Commerce.</p>
-                <div className="mbit-chips"><span>Aug 2026 – Present</span><span>Bogotá</span><span>Scholarship recipient</span></div>
+                <p>{t.mbitCopy}</p>
+                <div className="mbit-chips">{t.mbitChips.map((c) => <span key={c}>{c}</span>)}</div>
               </div>
             </article>
           </div>
         </section>
-        <section className="section" aria-labelledby="education-heading"><div className="container-site"><SectionHeading number="05" title="Education & certifications" id="education-heading" /><div className="education-grid">{education.map(([title, institution, date], index) => <article key={title} className="education-item reveal">{index === 0 || index === 5 ? <GraduationCap size={19} strokeWidth={1.5} /> : <Check size={18} strokeWidth={1.5} />}<div><h3>{title}</h3><p>{institution && `${institution} · `}{date}</p></div></article>)}</div></div></section>
-        <section ref={bookSectionRef} id="book" className="section booking-section" aria-labelledby="book-heading"><div className="container-site"><SectionHeading number="06" title="Book a call with me" id="book-heading" note="30 minutes" /><p className="booking-sub">30 minutes to talk about your accounts, your growth goals, and where I can help.</p><div className="booking-chips"><span>30 min</span><span>Video call</span><span>U.S. & LATAM time zones</span></div><article className={`glass-card booking-card${calendlyLoaded ? " calendly-loaded" : ""}`}><div className="calendly-inline-widget" data-url={`${CALENDLY_URL}?hide_gdpr_banner=1&primary_color=2662d9`} style={{ minWidth: "320px", height: "700px" }} /><Button asChild className="calendly-fallback" variant="outline"><a href={CALENDLY_URL} target="_blank" rel="noopener noreferrer">Open scheduling page<ArrowUpRight /></a></Button></article></div></section>
-        <section id="contact" className="contact-section" aria-labelledby="contact-heading"><div className="container-site contact-layout"><div><div className="eyebrow text-primary"><span className="eyebrow-line" />Let’s connect</div><h2 id="contact-heading">Your next growth partner.<br />Let’s talk.</h2><p className="location-note">Based in Bogotá · Works U.S. hours · Available to travel</p></div><div className="contact-details"><a href="mailto:michelleescobar2703@gmail.com"><Mail size={17} />michelleescobar2703@gmail.com<ArrowUpRight size={14} /></a><a href={LINKEDIN_URL} target="_blank" rel="noopener noreferrer" aria-label="Michelle Pulido on LinkedIn"><Linkedin size={17} />Connect on LinkedIn<ArrowUpRight size={14} /></a><a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer" aria-label="Chat with Michelle on WhatsApp"><MessageCircle size={17} />Chat on WhatsApp<ArrowUpRight size={14} /></a></div></div></section>
+        <section className="section" aria-labelledby="education-heading"><div className="container-site"><SectionHeading number="05" title={t.eduTitle} id="education-heading" /><div className="education-grid">{education.map(([title, institution, date], index) => <article key={title} className="education-item reveal">{index === 0 || index === 5 ? <GraduationCap size={19} strokeWidth={1.5} /> : <Check size={18} strokeWidth={1.5} />}<div><h3>{title}</h3><p>{institution && `${institution} · `}{date}</p></div></article>)}</div></div></section>
+        <section ref={bookSectionRef} id="book" className="section booking-section" aria-labelledby="book-heading"><div className="container-site"><SectionHeading number="06" title={t.bookTitle} id="book-heading" note={t.bookNote} /><p className="booking-sub">{t.bookSub}</p><div className="booking-chips">{t.bookChips.map((c) => <span key={c}>{c}</span>)}</div><article className={`glass-card booking-card${calendlyLoaded ? " calendly-loaded" : ""}`}><div className="calendly-inline-widget" data-url={`${CALENDLY_URL}?hide_gdpr_banner=1&primary_color=2662d9`} style={{ minWidth: "320px", height: "700px" }} /><Button asChild className="calendly-fallback" variant="outline"><a href={CALENDLY_URL} target="_blank" rel="noopener noreferrer">{t.openScheduling}<ArrowUpRight /></a></Button></article></div></section>
+        <section id="contact" className="contact-section" aria-labelledby="contact-heading"><div className="container-site contact-layout"><div><div className="eyebrow text-primary"><span className="eyebrow-line" />{t.connect}</div><h2 id="contact-heading">{t.contactTitle1}<br />{t.contactTitle2}</h2><p className="location-note">{t.location}</p></div><div className="contact-details"><a href="mailto:michelleescobar2703@gmail.com"><Mail size={17} />michelleescobar2703@gmail.com<ArrowUpRight size={14} /></a><a href={LINKEDIN_URL} target="_blank" rel="noopener noreferrer" aria-label={t.linkedinAria}><Linkedin size={17} />{t.linkedinConnect}<ArrowUpRight size={14} /></a><a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer" aria-label={t.whatsappAria}><MessageCircle size={17} />{t.whatsappChat}<ArrowUpRight size={14} /></a></div></div></section>
       </main>
-      <footer><div className="container-site footer-inner"><span>© 2026 Michelle Pulido.</span><div className="footer-links"><a href={LINKEDIN_URL} target="_blank" rel="noopener noreferrer" aria-label="Michelle Pulido on LinkedIn" className="flex items-center gap-2"><Linkedin size={12} />LinkedIn</a><a href="#home" className="flex items-center gap-2">Back to top<ArrowRight size={12} className="-rotate-90" /></a></div></div></footer>
-      <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer" className="whatsapp-fab" aria-label="Chat with Michelle on WhatsApp" title="Chat on WhatsApp"><MessageCircle size={24} /></a>
-      <Dialog open={missingAsset !== null} onOpenChange={(open) => { if (!open) setMissingAsset(null); }}><DialogContent><DialogHeader><DialogTitle>{missingAsset === "deck" ? "Portfolio deck coming soon" : "Résumé PDF coming soon"}</DialogTitle><DialogDescription>{missingAsset === "deck" ? "The portfolio link hasn’t been added yet. Contact Michelle for her latest work." : "The résumé PDF hasn’t been uploaded yet. Contact Michelle for her latest résumé."}</DialogDescription></DialogHeader><Button asChild><a href="mailto:michelleescobar2703@gmail.com"><Mail />Contact Michelle</a></Button></DialogContent></Dialog>
+      <footer><div className="container-site footer-inner"><span>© 2026 Michelle Pulido.</span><div className="footer-links"><a href={LINKEDIN_URL} target="_blank" rel="noopener noreferrer" aria-label={t.linkedinAria} className="flex items-center gap-2"><Linkedin size={12} />LinkedIn</a><a href="#home" className="flex items-center gap-2">{t.backTop}<ArrowRight size={12} className="-rotate-90" /></a></div></div></footer>
+      <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer" className="whatsapp-fab" aria-label={t.whatsappAria} title={t.whatsappChat}><MessageCircle size={24} /></a>
+      <Dialog open={missingAsset !== null} onOpenChange={(open) => { if (!open) setMissingAsset(null); }}><DialogContent><DialogHeader><DialogTitle>{missingAsset === "deck" ? t.deckSoonTitle : t.resumeSoonTitle}</DialogTitle><DialogDescription>{missingAsset === "deck" ? t.deckSoonDesc : t.resumeSoonDesc}</DialogDescription></DialogHeader><Button asChild><a href="mailto:michelleescobar2703@gmail.com"><Mail />{t.contactMichelle}</a></Button></DialogContent></Dialog>
     </>
   );
 }
-function TimelineItem({ item, current }: { item: ExperienceTrack["items"][number]; current?: boolean }) {
+function TimelineItem({ item, current, t }: { item: ExperienceTrack["items"][number]; current?: boolean; t: Dict }) {
   const [open, setOpen] = useState(false);
   return (
     <article className="timeline-item reveal">
       <span className="timeline-dot" aria-hidden="true" />
-      <div className="timeline-date">{item.dates}{current && <span className="current-label">CURRENT ROLE</span>}</div>
+      <div className="timeline-date">{item.dates}{current && <span className="current-label">{t.currentRole}</span>}</div>
       <div>
         <h3 className="timeline-role">{item.role}</h3>
         <p className="timeline-company">{item.company}</p>
         <p className="timeline-description">{item.description}</p>
         <button type="button" className="result-toggle" aria-expanded={open} onClick={() => setOpen(!open)}>
-          <span className="result-label">Result</span>Results achieved<ChevronDown size={13} className={`result-chevron${open ? " is-open" : ""}`} />
+          <span className="result-label">{t.resultLabel}</span>{t.resultsAchieved}<ChevronDown size={13} className={`result-chevron${open ? " is-open" : ""}`} />
         </button>
         {open && <div className="result-chip result-panel"><span>{item.result}</span></div>}
       </div>
@@ -222,7 +232,7 @@ function getVideoSource(url: string): VideoSource | null {
   return { kind: "embed", src: value };
 }
 
-function IntroVideo() {
+function IntroVideo({ t }: { t: Dict }) {
   const [playing, setPlaying] = useState(false);
   const source = getVideoSource(INTRO_VIDEO_URL);
   if (!source) {
@@ -230,7 +240,7 @@ function IntroVideo() {
       <div className="glass-card video-card reveal">
         <div className="video-frame video-placeholder">
           <span className="video-play" aria-hidden="true"><Play size={26} fill="currentColor" /></span>
-          <span className="video-placeholder-label">Intro video coming soon</span>
+          <span className="video-placeholder-label">{t.videoSoon}</span>
         </div>
       </div>
     );
@@ -242,12 +252,12 @@ function IntroVideo() {
           source.kind === "mp4" ? (
             <video src={source.src} controls playsInline autoPlay className="video-media" />
           ) : (
-            <iframe src={source.src} title="Meet Michelle in 90 seconds — intro video" className="video-media" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen referrerPolicy="strict-origin-when-cross-origin" />
+            <iframe src={source.src} title={t.videoTitle} className="video-media" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen referrerPolicy="strict-origin-when-cross-origin" />
           )
         ) : (
-          <button type="button" className="video-poster" onClick={() => setPlaying(true)} aria-label="Play intro video">
+          <button type="button" className="video-poster" onClick={() => setPlaying(true)} aria-label={t.playVideo}>
             <span className="video-play"><Play size={26} fill="currentColor" /></span>
-            <span className="video-placeholder-label">Play intro video</span>
+            <span className="video-placeholder-label">{t.playVideo}</span>
           </button>
         )}
       </div>
