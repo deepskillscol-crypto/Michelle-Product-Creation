@@ -30,6 +30,28 @@ function Index() {
   const [dark, setDark] = useState(false);
   const [missingAsset, setMissingAsset] = useState<"deck" | "resume" | null>(null);
   const [activeTrack, setActiveTrack] = useState(experienceTracks[0]?.id ?? "");
+  const bookSectionRef = useRef<HTMLElement | null>(null);
+  const [calendlyLoaded, setCalendlyLoaded] = useState(false);
+  useEffect(() => {
+    const section = bookSectionRef.current;
+    if (!section) return;
+    let timer: ReturnType<typeof setTimeout> | undefined;
+    function verifyWidget() {
+      timer = setTimeout(() => { if (section.querySelector(".calendly-inline-widget iframe")) setCalendlyLoaded(true); }, 1500);
+    }
+    function loadScript() {
+      if (document.querySelector("script[data-calendly]")) { verifyWidget(); return; }
+      const script = document.createElement("script");
+      script.src = "https://assets.calendly.com/assets/external/widget.js";
+      script.async = true;
+      script.dataset.calendly = "true";
+      script.addEventListener("load", verifyWidget);
+      document.body.appendChild(script);
+    }
+    const observer = new IntersectionObserver((entries) => { if (entries.some((entry) => entry.isIntersecting)) { loadScript(); observer.disconnect(); } }, { rootMargin: "240px" });
+    observer.observe(section);
+    return () => { observer.disconnect(); if (timer) clearTimeout(timer); };
+  }, []);
   useEffect(() => {
     const isDark = window.localStorage.getItem("michelle-theme") === "dark" || (!window.localStorage.getItem("michelle-theme") && window.matchMedia("(prefers-color-scheme: dark)").matches);
     setDark(isDark);
@@ -62,7 +84,7 @@ function Index() {
           <nav aria-label="Main navigation" className={`nav-links ${menuOpen ? "is-open" : ""}`} id="main-navigation">{navigation.map(([label, id]) => <a key={id} href={`#${id}`} onClick={() => setMenuOpen(false)}>{label}</a>)}</nav>
           <div className="nav-actions">
             <Button variant="ghost" size="icon" aria-label={dark ? "Use light theme" : "Use dark theme"} title={dark ? "Use light theme" : "Use dark theme"} onClick={toggleTheme}>{dark ? <Sun size={16} /> : <Moon size={16} />}</Button>
-            <Button asChild className="nav-resume" size="sm"><a {...resumeLink}><ArrowDownToLine />Download résumé</a></Button>
+            <Button asChild className="nav-resume" size="sm"><a href="#book"><Calendar />Book a call</a></Button>
             <Button className="menu-trigger" variant="ghost" size="icon" aria-label={menuOpen ? "Close menu" : "Open menu"} aria-expanded={menuOpen} aria-controls="main-navigation" onClick={() => setMenuOpen(!menuOpen)}>{menuOpen ? <X /> : <Menu />}</Button>
           </div>
         </div>
@@ -76,7 +98,7 @@ function Index() {
               <h1 id="hero-heading">I turn account data into growth plans clients trust — and keep the clients who fund them.</h1>
               <p className="hero-subtitle">Growth Partner · E-commerce &amp; Ad Platforms · Product Ownership</p>
               <p className="hero-details">8+ years across Amazon, Microsoft Advertising, SaaS &amp; fintech · U.S. + LATAM · EN · ES · PT</p>
-              <div className="hero-buttons"><Button asChild variant="hero" size="lg"><a {...deckLink}>View portfolio deck<ArrowUpRight /></a></Button><Button asChild variant="heroOutline" size="lg"><a {...resumeLink}><ArrowDownToLine />Download résumé</a></Button></div>
+              <div className="hero-buttons"><Button asChild variant="hero" size="lg"><a {...deckLink}>View portfolio deck<ArrowUpRight /></a></Button><Button asChild variant="heroOutline" size="lg"><a href="#book"><Calendar />Book a call</a></Button><Button asChild variant="heroOutline" size="lg"><a {...resumeLink}><ArrowDownToLine />Download résumé</a></Button></div>
             </div>
             <div className="portrait-area reveal">
               <div className="portrait-ring"><div className="portrait" role="img" aria-label="Circular photo placeholder for Michelle Pulido"><span className="portrait-monogram">mp.</span><span className="portrait-caption">Photo coming soon</span></div></div>
@@ -115,6 +137,7 @@ function Index() {
         </section>
         <section id="resume" className="resume-band" aria-labelledby="resume-heading"><div className="container-site resume-inner"><div className="resume-title"><FileText className="text-primary" size={28} strokeWidth={1.4} /><div><h2 id="resume-heading">Latest résumé</h2><p>Updated October 2026</p></div></div><Button asChild variant="outline"><a {...resumeLink}><ArrowDownToLine />Download PDF</a></Button></div></section>
         <section className="section" aria-labelledby="education-heading"><div className="container-site"><SectionHeading number="04" title="Education & certifications" id="education-heading" /><div className="education-grid">{education.map(([title, institution, date], index) => <article key={title} className="education-item reveal">{index === 0 || index === 5 ? <GraduationCap size={19} strokeWidth={1.5} /> : <Check size={18} strokeWidth={1.5} />}<div><h3>{title}</h3><p>{institution && `${institution} · `}{date}</p></div></article>)}</div></div></section>
+        <section ref={bookSectionRef} id="book" className="section booking-section" aria-labelledby="book-heading"><div className="container-site"><SectionHeading number="05" title="Book a call with me" id="book-heading" note="30 minutes" /><p className="booking-sub">30 minutes to talk about your accounts, your growth goals, and where I can help.</p><div className="booking-chips"><span>30 min</span><span>Video call</span><span>U.S. & LATAM time zones</span></div><article className={`glass-card booking-card${calendlyLoaded ? " calendly-loaded" : ""}`}><div className="calendly-inline-widget" data-url={`${CALENDLY_URL}?hide_gdpr_banner=1&primary_color=2662d9`} style={{ minWidth: "320px", height: "700px" }} /><Button asChild className="calendly-fallback" variant="outline"><a href={CALENDLY_URL} target="_blank" rel="noopener noreferrer">Open scheduling page<ArrowUpRight /></a></Button></article></div></section>
         <section id="contact" className="contact-section" aria-labelledby="contact-heading"><div className="container-site contact-layout"><div><div className="eyebrow text-primary"><span className="eyebrow-line" />Let’s connect</div><h2 id="contact-heading">Your next growth partner.<br />Let’s talk.</h2><p className="location-note">Based in Bogotá · Works U.S. hours · Available to travel</p></div><div className="contact-details"><a href="mailto:michelleescobar2703@gmail.com"><Mail size={17} />michelleescobar2703@gmail.com<ArrowUpRight size={14} /></a><a href="https://www.linkedin.com/in/michellepulidoescobar/" target="_blank" rel="noopener noreferrer"><Linkedin size={17} />Connect on LinkedIn<ArrowUpRight size={14} /></a></div></div></section>
       </main>
       <footer><div className="container-site footer-inner"><span>© 2026 Michelle Pulido.</span><a href="#home" className="flex items-center gap-2">Back to top<ArrowRight size={12} className="-rotate-90" /></a></div></footer>
