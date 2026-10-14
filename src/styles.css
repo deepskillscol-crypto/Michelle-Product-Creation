@@ -84,7 +84,7 @@ a { text-decoration: none; }
 h1 { font-size: 45px; line-height: 1.16; font-weight: 650; max-width: 660px; margin: 0 0 24px; text-wrap: balance; }
 .hero-subtitle { font-size: 14px; font-weight: 550; margin: 0 0 13px; }
 .hero-details { font-size: 12px; line-height: 1.9; opacity: .82; max-width: 490px; margin: 0; }
-.hero-buttons { display: flex; gap: 12px; margin-top: 31px; }
+.hero-buttons { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 31px; }
 .hero-buttons a { font-size: 12px; }
 .portrait-area { position: relative; display: flex; flex-direction: column; align-items: center; padding-top: 7px; }
 .portrait-ring { width: 290px; height: 290px; border: 1px solid var(--hero-border); border-radius: 50%; padding: 12px; position: relative; }
@@ -169,6 +169,12 @@ h3 { font-size: 17px; font-weight: 650; margin: 0 0 12px; }
 .contact-details { display: flex; flex-direction: column; align-items: flex-start; gap: 14px; }
 .contact-details a { display: inline-flex; gap: 10px; align-items: center; color: var(--primary); font-size: 12px; }
 .location-note { margin: 0; font-size: 11px; line-height: 1.9; color: var(--muted-foreground); }
+.booking-sub { font-size: 12px; line-height: 1.9; color: var(--muted-foreground); max-width: 560px; margin: -16px 0 14px; }
+.booking-chips { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 24px; }
+.booking-chips span { font-size: 10px; font-weight: 550; color: var(--primary); background: color-mix(in oklab, var(--primary) 7%, var(--background)); border: 1px solid color-mix(in oklab, var(--primary) 20%, transparent); padding: 5px 11px; border-radius: 999px; }
+.booking-card { padding: 20px 20px 24px; }
+.calendly-fallback { margin-top: 16px; }
+@media(min-width:768px) { .booking-card.calendly-loaded .calendly-fallback { display: none; } }
 footer { padding-block: 23px; }
 .footer-inner { display: flex; justify-content: space-between; align-items: center; font-size: 10px; color: var(--muted-foreground); }
 .reveal { animation: fade-up .65s ease both; }
@@ -199,5 +205,6 @@ footer { padding-block: 23px; }
   .portfolio-layout { grid-template-columns: 1fr; gap: 20px; } .portfolio-info { padding: 24px; } .deck-cover { padding: 25px; } .deck-cover h3 { font-size: 28px; }
   .resume-inner { align-items: flex-start; } .resume-title { gap: 12px; } .resume-title h2 { font-size: 16px; } .resume-inner a { font-size: 10px; padding-inline: 12px; }
   .education-grid { grid-template-columns: 1fr; } .contact-layout { flex-direction: column; align-items: flex-start; gap: 25px; } .contact-layout h2 { font-size: 28px; } .contact-details a { font-size: 11px; } .footer-inner { font-size: 9px; }
+  .booking-sub { font-size: 11px; margin-top: -12px; } .booking-card { padding: 14px 12px 18px; } .calendly-fallback { font-size: 11px; }
 }
 @media(prefers-reduced-motion:reduce) { html { scroll-behavior: auto; } *, *::before, *::after { animation: none !important; transition: none !important; } }
