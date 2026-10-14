@@ -35,16 +35,17 @@ function Index() {
   useEffect(() => {
     const section = bookSectionRef.current;
     if (!section) return;
+    const widgetRoot: HTMLElement = section;
     let timer: ReturnType<typeof setTimeout> | undefined;
     function verifyWidget() {
-      timer = setTimeout(() => { if (section.querySelector(".calendly-inline-widget iframe")) setCalendlyLoaded(true); }, 1500);
+      timer = setTimeout(() => { if (widgetRoot.querySelector(".calendly-inline-widget iframe")) setCalendlyLoaded(true); }, 1500);
     }
     function loadScript() {
       if (document.querySelector("script[data-calendly]")) { verifyWidget(); return; }
       const script = document.createElement("script");
       script.src = "https://assets.calendly.com/assets/external/widget.js";
       script.async = true;
-      script.dataset.calendly = "true";
+      script.dataset["calendly"] = "true";
       script.addEventListener("load", verifyWidget);
       document.body.appendChild(script);
     }
