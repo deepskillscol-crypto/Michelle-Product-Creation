@@ -29,7 +29,7 @@ function Index() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [dark, setDark] = useState(false);
   const [missingAsset, setMissingAsset] = useState<"deck" | "resume" | null>(null);
-  const [activeTrack, setActiveTrack] = useState(experienceTracks[0].id);
+  const [activeTrack, setActiveTrack] = useState(experienceTracks[0]?.id ?? "");
   useEffect(() => {
     const isDark = window.localStorage.getItem("michelle-theme") === "dark" || (!window.localStorage.getItem("michelle-theme") && window.matchMedia("(prefers-color-scheme: dark)").matches);
     setDark(isDark);
