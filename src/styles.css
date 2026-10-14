@@ -92,6 +92,16 @@ h1 { font-size: 45px; line-height: 1.16; font-weight: 650; max-width: 660px; mar
 .portrait-monogram { font-weight: 450; font-size: 68px; opacity: .9; }
 .portrait-caption { font-size: 9px; text-transform: uppercase; opacity: .65; }
 .portrait-badge { display: flex; align-items: center; gap: 7px; margin-top: -20px; position: relative; border: 1px solid var(--hero-border); background: var(--hero-glass); backdrop-filter: blur(20px); padding: 12px 17px; border-radius: 30px; font-size: 10px; }
+.portrait-photo { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; display: block; }
+.mbit-section { padding-top: 0; }
+.mbit-card { display: flex; align-items: center; gap: 34px; padding: 40px 44px; }
+.mbit-logo { flex-shrink: 0; width: 84px; height: 84px; border-radius: 50%; overflow: hidden; box-shadow: 0 8px 24px rgba(15, 23, 42, .14); }
+.mbit-logo img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.mbit-eyebrow { font-size: 9px; text-transform: uppercase; letter-spacing: .16em; color: var(--primary); font-weight: 600; }
+.mbit-copy h2 { font-size: 22px; margin: 8px 0 10px; }
+.mbit-copy p { font-size: 12px; line-height: 1.8; color: var(--muted-foreground); margin: 0 0 16px; max-width: 640px; }
+.mbit-chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.mbit-chips span { font-size: 9px; text-transform: uppercase; letter-spacing: .1em; padding: 7px 13px; border-radius: 999px; border: 1px solid var(--border); color: var(--muted-foreground); background: var(--background); }
 .status-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--highlight); }
 .hero-shape { position: absolute; border-radius: 44% 56% 65% 35% / 50% 35% 65% 50%; background: var(--hero-glass); z-index: -1; animation: float-shape 18s ease-in-out infinite alternate; }
 .shape-one { width: 650px; height: 600px; right: -140px; top: -200px; transform: rotate(-30deg); }
