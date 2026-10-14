@@ -1,10 +1,10 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useRef, useState, type MouseEvent } from "react";
-import { ArrowDown, ArrowDownToLine, ArrowRight, ArrowUpRight, Award, BarChart3, BriefcaseBusiness, Calendar, Check, FileText, GraduationCap, Handshake, Layers3, Linkedin, Mail, Menu, Moon, Play, Presentation, Sun, X } from "lucide-react";
+import { ArrowDown, ArrowDownToLine, ArrowRight, ArrowUpRight, Award, BarChart3, BriefcaseBusiness, Calendar, Check, ChevronDown, FileText, GraduationCap, Handshake, Layers3, Linkedin, Mail, Menu, MessageCircle, Moon, Play, Presentation, Sun, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { PORTFOLIO_DECK_URL, RESUME_URL, IS_PORTFOLIO_PLACEHOLDER, CALENDLY_URL, LINKEDIN_URL, INTRO_VIDEO_URL } from "@/config/links";
-import { education, experienceTracks } from "@/config/profile";
+import { PORTFOLIO_DECK_URL, RESUME_URL, IS_PORTFOLIO_PLACEHOLDER, CALENDLY_URL, LINKEDIN_URL, INTRO_VIDEO_URL, WHATSAPP_URL } from "@/config/links";
+import { education, experienceTracks, type ExperienceTrack } from "@/config/profile";
 import michellePhoto from "@/assets/michelle-pulido.jpg.asset.json";
 import uniandesLogo from "@/assets/uniandes-logo.png.asset.json";
 
@@ -140,7 +140,7 @@ function Index() {
             {experienceTracks.map((track, trackIndex) => (
               <div key={track.id} className={`experience-track${activeTrack === track.id ? " is-active" : ""}`} data-accent={track.accent} role="tabpanel" aria-label={track.name}>
                 <div className="track-label"><h3 className="track-name">{track.name}</h3><p className="track-subtitle">{track.subtitle}</p></div>
-                <div className="timeline">{track.items.map((item, index) => <article key={item.company} className="timeline-item reveal"><span className="timeline-dot" aria-hidden="true" /><div className="timeline-date">{item.dates}{trackIndex === 0 && index === 0 && <span className="current-label">CURRENT ROLE</span>}</div><div><h3 className="timeline-role">{item.role}</h3><p className="timeline-company">{item.company}</p><p className="timeline-description">{item.description}</p><div className="result-chip"><span className="result-label">Result</span><span>{item.result}</span></div></div></article>)}</div>
+                <div className="timeline">{track.items.map((item, index) => <TimelineItem key={item.company} item={item} current={trackIndex === 0 && index === 0} />)}</div>
               </div>
             ))}
           </div>
@@ -164,11 +164,30 @@ function Index() {
         </section>
         <section className="section" aria-labelledby="education-heading"><div className="container-site"><SectionHeading number="04" title="Education & certifications" id="education-heading" /><div className="education-grid">{education.map(([title, institution, date], index) => <article key={title} className="education-item reveal">{index === 0 || index === 5 ? <GraduationCap size={19} strokeWidth={1.5} /> : <Check size={18} strokeWidth={1.5} />}<div><h3>{title}</h3><p>{institution && `${institution} · `}{date}</p></div></article>)}</div></div></section>
         <section ref={bookSectionRef} id="book" className="section booking-section" aria-labelledby="book-heading"><div className="container-site"><SectionHeading number="05" title="Book a call with me" id="book-heading" note="30 minutes" /><p className="booking-sub">30 minutes to talk about your accounts, your growth goals, and where I can help.</p><div className="booking-chips"><span>30 min</span><span>Video call</span><span>U.S. & LATAM time zones</span></div><article className={`glass-card booking-card${calendlyLoaded ? " calendly-loaded" : ""}`}><div className="calendly-inline-widget" data-url={`${CALENDLY_URL}?hide_gdpr_banner=1&primary_color=2662d9`} style={{ minWidth: "320px", height: "700px" }} /><Button asChild className="calendly-fallback" variant="outline"><a href={CALENDLY_URL} target="_blank" rel="noopener noreferrer">Open scheduling page<ArrowUpRight /></a></Button></article></div></section>
-        <section id="contact" className="contact-section" aria-labelledby="contact-heading"><div className="container-site contact-layout"><div><div className="eyebrow text-primary"><span className="eyebrow-line" />Let’s connect</div><h2 id="contact-heading">Your next growth partner.<br />Let’s talk.</h2><p className="location-note">Based in Bogotá · Works U.S. hours · Available to travel</p></div><div className="contact-details"><a href="mailto:michelleescobar2703@gmail.com"><Mail size={17} />michelleescobar2703@gmail.com<ArrowUpRight size={14} /></a><a href={LINKEDIN_URL} target="_blank" rel="noopener noreferrer" aria-label="Michelle Pulido on LinkedIn"><Linkedin size={17} />Connect on LinkedIn<ArrowUpRight size={14} /></a></div></div></section>
+        <section id="contact" className="contact-section" aria-labelledby="contact-heading"><div className="container-site contact-layout"><div><div className="eyebrow text-primary"><span className="eyebrow-line" />Let’s connect</div><h2 id="contact-heading">Your next growth partner.<br />Let’s talk.</h2><p className="location-note">Based in Bogotá · Works U.S. hours · Available to travel</p></div><div className="contact-details"><a href="mailto:michelleescobar2703@gmail.com"><Mail size={17} />michelleescobar2703@gmail.com<ArrowUpRight size={14} /></a><a href={LINKEDIN_URL} target="_blank" rel="noopener noreferrer" aria-label="Michelle Pulido on LinkedIn"><Linkedin size={17} />Connect on LinkedIn<ArrowUpRight size={14} /></a><a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer" aria-label="Chat with Michelle on WhatsApp"><MessageCircle size={17} />Chat on WhatsApp<ArrowUpRight size={14} /></a></div></div></section>
       </main>
       <footer><div className="container-site footer-inner"><span>© 2026 Michelle Pulido.</span><div className="footer-links"><a href={LINKEDIN_URL} target="_blank" rel="noopener noreferrer" aria-label="Michelle Pulido on LinkedIn" className="flex items-center gap-2"><Linkedin size={12} />LinkedIn</a><a href="#home" className="flex items-center gap-2">Back to top<ArrowRight size={12} className="-rotate-90" /></a></div></div></footer>
+      <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer" className="whatsapp-fab" aria-label="Chat with Michelle on WhatsApp" title="Chat on WhatsApp"><MessageCircle size={24} /></a>
       <Dialog open={missingAsset !== null} onOpenChange={(open) => { if (!open) setMissingAsset(null); }}><DialogContent><DialogHeader><DialogTitle>{missingAsset === "deck" ? "Portfolio deck coming soon" : "Résumé PDF coming soon"}</DialogTitle><DialogDescription>{missingAsset === "deck" ? "The portfolio link hasn’t been added yet. Contact Michelle for her latest work." : "The résumé PDF hasn’t been uploaded yet. Contact Michelle for her latest résumé."}</DialogDescription></DialogHeader><Button asChild><a href="mailto:michelleescobar2703@gmail.com"><Mail />Contact Michelle</a></Button></DialogContent></Dialog>
     </>
+  );
+}
+function TimelineItem({ item, current }: { item: ExperienceTrack["items"][number]; current?: boolean }) {
+  const [open, setOpen] = useState(false);
+  return (
+    <article className="timeline-item reveal">
+      <span className="timeline-dot" aria-hidden="true" />
+      <div className="timeline-date">{item.dates}{current && <span className="current-label">CURRENT ROLE</span>}</div>
+      <div>
+        <h3 className="timeline-role">{item.role}</h3>
+        <p className="timeline-company">{item.company}</p>
+        <p className="timeline-description">{item.description}</p>
+        <button type="button" className="result-toggle" aria-expanded={open} onClick={() => setOpen(!open)}>
+          <span className="result-label">Result</span>Results achieved<ChevronDown size={13} className={`result-chevron${open ? " is-open" : ""}`} />
+        </button>
+        {open && <div className="result-chip result-panel"><span>{item.result}</span></div>}
+      </div>
+    </article>
   );
 }
 function SectionHeading({ number, title, id, note }: { number: string; title: string; id: string; note?: string }) {
