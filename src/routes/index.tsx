@@ -5,6 +5,8 @@ import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { PORTFOLIO_DECK_URL, RESUME_URL, IS_PORTFOLIO_PLACEHOLDER, CALENDLY_URL, LINKEDIN_URL, INTRO_VIDEO_URL } from "@/config/links";
 import { education, experienceTracks } from "@/config/profile";
+import michellePhoto from "@/assets/michelle-pulido.jpg.asset.json";
+import uniandesLogo from "@/assets/uniandes-logo.png.asset.json";
 
 export const Route = createFileRoute("/")({
   head: () => ({ meta: [
@@ -104,7 +106,7 @@ function Index() {
               <a href={LINKEDIN_URL} target="_blank" rel="noopener noreferrer" aria-label="Michelle Pulido on LinkedIn" className="hero-linkedin"><Linkedin size={14} />LinkedIn<ArrowUpRight size={12} /></a>
             </div>
             <div className="portrait-area reveal">
-              <div className="portrait-ring"><div className="portrait" role="img" aria-label="Circular photo placeholder for Michelle Pulido"><span className="portrait-monogram">mp.</span><span className="portrait-caption">Photo coming soon</span></div></div>
+              <div className="portrait-ring"><img className="portrait-photo" src={michellePhoto.url} alt="Portrait of Michelle Pulido" width={290} height={290} loading="eager" /></div>
               <div className="portrait-badge"><span className="status-dot" />Bogotá based. U.S. focused.</div>
             </div>
           </div>
@@ -147,6 +149,19 @@ function Index() {
           <div className="container-site"><SectionHeading number="03" title="The work behind the results" id="portfolio-heading" note="Context → Action → Impact" /><div className="portfolio-layout"><article className="glass-card portfolio-info reveal"><div className="service-icon"><Presentation size={21} strokeWidth={1.6} /></div><h3>Growth Partner portfolio deck</h3><p>One slide per role: context, what I did, results, and what I can bring to your team.</p><Button asChild><a {...deckLink}>Open deck<ArrowUpRight /></a></Button></article><div className="deck-preview reveal">{IS_PORTFOLIO_PLACEHOLDER ? <><div className="deck-cover"><div className="deck-cover-label"><span>MICHELLE PULIDO</span><span>PORTFOLIO / 2026</span></div><div><h3>Growth Partner<br />portfolio.</h3><p>Client growth. Product thinking. Lasting partnerships.</p></div><div className="deck-cover-footer"><span>U.S. + LATAM</span><ArrowUpRight size={19} /></div></div><span className="deck-placeholder-label">Deck coming soon</span></> : <iframe src={PORTFOLIO_DECK_URL} title="Michelle Pulido Growth Partner portfolio deck" loading="lazy" allowFullScreen referrerPolicy="strict-origin-when-cross-origin" />}</div></div></div>
         </section>
         <section id="resume" className="resume-band" aria-labelledby="resume-heading"><div className="container-site resume-inner"><div className="resume-title"><FileText className="text-primary" size={28} strokeWidth={1.4} /><div><h2 id="resume-heading">Latest résumé</h2><p>Updated October 2026</p></div></div><Button asChild variant="outline"><a {...resumeLink}><ArrowDownToLine />Download PDF</a></Button></div></section>
+        <section className="section mbit-section" aria-labelledby="mbit-heading">
+          <div className="container-site">
+            <article className="glass-card mbit-card reveal">
+              <div className="mbit-logo"><img src={uniandesLogo.url} alt="Universidad de los Andes logo" width={84} height={84} loading="lazy" /></div>
+              <div className="mbit-copy">
+                <span className="mbit-eyebrow">Currently studying</span>
+                <h2 id="mbit-heading">MBIT · Universidad de los Andes</h2>
+                <p>Graduate studies in progress alongside my full-time role — sharpening the strategy and technology toolkit I bring to every account. Admitted with a scholarship awarded for the top capstone consulting project with the Bogotá Chamber of Commerce.</p>
+                <div className="mbit-chips"><span>Aug 2026 – Present</span><span>Bogotá</span><span>Scholarship recipient</span></div>
+              </div>
+            </article>
+          </div>
+        </section>
         <section className="section" aria-labelledby="education-heading"><div className="container-site"><SectionHeading number="04" title="Education & certifications" id="education-heading" /><div className="education-grid">{education.map(([title, institution, date], index) => <article key={title} className="education-item reveal">{index === 0 || index === 5 ? <GraduationCap size={19} strokeWidth={1.5} /> : <Check size={18} strokeWidth={1.5} />}<div><h3>{title}</h3><p>{institution && `${institution} · `}{date}</p></div></article>)}</div></div></section>
         <section ref={bookSectionRef} id="book" className="section booking-section" aria-labelledby="book-heading"><div className="container-site"><SectionHeading number="05" title="Book a call with me" id="book-heading" note="30 minutes" /><p className="booking-sub">30 minutes to talk about your accounts, your growth goals, and where I can help.</p><div className="booking-chips"><span>30 min</span><span>Video call</span><span>U.S. & LATAM time zones</span></div><article className={`glass-card booking-card${calendlyLoaded ? " calendly-loaded" : ""}`}><div className="calendly-inline-widget" data-url={`${CALENDLY_URL}?hide_gdpr_banner=1&primary_color=2662d9`} style={{ minWidth: "320px", height: "700px" }} /><Button asChild className="calendly-fallback" variant="outline"><a href={CALENDLY_URL} target="_blank" rel="noopener noreferrer">Open scheduling page<ArrowUpRight /></a></Button></article></div></section>
         <section id="contact" className="contact-section" aria-labelledby="contact-heading"><div className="container-site contact-layout"><div><div className="eyebrow text-primary"><span className="eyebrow-line" />Let’s connect</div><h2 id="contact-heading">Your next growth partner.<br />Let’s talk.</h2><p className="location-note">Based in Bogotá · Works U.S. hours · Available to travel</p></div><div className="contact-details"><a href="mailto:michelleescobar2703@gmail.com"><Mail size={17} />michelleescobar2703@gmail.com<ArrowUpRight size={14} /></a><a href={LINKEDIN_URL} target="_blank" rel="noopener noreferrer" aria-label="Michelle Pulido on LinkedIn"><Linkedin size={17} />Connect on LinkedIn<ArrowUpRight size={14} /></a></div></div></section>
