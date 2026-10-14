@@ -33,6 +33,15 @@ export const experienceTracks: ExperienceTrack[] = [
   },
 ];
 
+export type Testimonial = { quote: string; name: string; role: string; company: string };
+
+// Replace the bracketed placeholders with real client quotes.
+export const testimonials: Testimonial[] = [
+  { quote: "[Client quote about Michelle’s work at Enkube — e.g. how the 360° roadmap helped the team.]", name: "[Name]", role: "[Role]", company: "Enkube ERP" },
+  { quote: "[Client quote about account growth or client partnership.]", name: "[Name]", role: "[Role]", company: "[Company]" },
+  { quote: "[Client quote about results achieved together.]", name: "[Name]", role: "[Role]", company: "[Company]" },
+];
+
 export const education = [
   ["MBIT", "Universidad de los Andes", "Aug 2026–Present"],
   ["LAB10 AI Builders", "", "2026"],

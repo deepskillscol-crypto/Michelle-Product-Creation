@@ -108,6 +108,13 @@ h1 { font-size: 45px; line-height: 1.16; font-weight: 650; max-width: 660px; mar
 .result-chevron { transition: transform .25s; }
 .result-chevron.is-open { transform: rotate(180deg); }
 .result-panel { margin-top: 10px; }
+.testimonials-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 26px; }
+.testimonial { padding: 30px 28px; display: flex; flex-direction: column; gap: 16px; margin: 0; }
+.testimonial-icon { color: var(--primary); }
+.testimonial blockquote { margin: 0; font-size: 12px; line-height: 1.8; color: var(--foreground); }
+.testimonial figcaption { display: flex; flex-direction: column; gap: 3px; margin-top: auto; }
+.testimonial-name { font-size: 11px; font-weight: 600; }
+.testimonial-role { font-size: 9px; text-transform: uppercase; letter-spacing: .1em; color: var(--muted-foreground); }
 .whatsapp-fab { position: fixed; right: 22px; bottom: 22px; z-index: 60; width: 54px; height: 54px; border-radius: 50%; display: flex; align-items: center; justify-content: center; background: hsl(142 70% 40%); color: hsl(0 0% 100%); box-shadow: 0 10px 26px rgba(18, 140, 80, .38); transition: transform .2s, box-shadow .2s; }
 .whatsapp-fab:hover { transform: translateY(-3px); box-shadow: 0 14px 32px rgba(18, 140, 80, .46); }
 @media (prefers-reduced-motion: reduce) { .whatsapp-fab, .result-chevron { transition: none; } }
@@ -239,7 +246,7 @@ footer { padding-block: 23px; }
   .track-subtitle { font-size: 10px; line-height: 1.7; color: var(--muted-foreground); margin: 0; }
   .portfolio-layout { grid-template-columns: 1fr; gap: 20px; } .portfolio-info { padding: 24px; } .deck-cover { padding: 25px; } .deck-cover h3 { font-size: 28px; }
   .resume-inner { align-items: flex-start; } .resume-title { gap: 12px; } .resume-title h2 { font-size: 16px; } .resume-inner a { font-size: 10px; padding-inline: 12px; }
-  .education-grid { grid-template-columns: 1fr; } .contact-layout { flex-direction: column; align-items: flex-start; gap: 25px; } .contact-layout h2 { font-size: 28px; } .contact-details a { font-size: 11px; } .footer-inner { font-size: 9px; } .mbit-card { flex-direction: column; align-items: flex-start; padding: 28px; gap: 22px; }
+  .education-grid { grid-template-columns: 1fr; } .contact-layout { flex-direction: column; align-items: flex-start; gap: 25px; } .contact-layout h2 { font-size: 28px; } .contact-details a { font-size: 11px; } .footer-inner { font-size: 9px; } .mbit-card { flex-direction: column; align-items: flex-start; padding: 28px; gap: 22px; } .testimonials-grid { grid-template-columns: 1fr; }
   .booking-sub { font-size: 11px; margin-top: -12px; } .booking-card { padding: 14px 12px 18px; } .calendly-fallback { font-size: 11px; }
   .video-sub { font-size: 11px; margin-top: -12px; } .video-card { padding: 10px; } .video-play { width: 54px; height: 54px; } .video-placeholder-label { font-size: 10px; } .footer-links { gap: 14px; }
 }
