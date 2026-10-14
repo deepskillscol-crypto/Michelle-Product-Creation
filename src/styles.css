@@ -230,7 +230,7 @@ footer { padding-block: 23px; }
   .track-subtitle { font-size: 10px; line-height: 1.7; color: var(--muted-foreground); margin: 0; }
   .portfolio-layout { grid-template-columns: 1fr; gap: 20px; } .portfolio-info { padding: 24px; } .deck-cover { padding: 25px; } .deck-cover h3 { font-size: 28px; }
   .resume-inner { align-items: flex-start; } .resume-title { gap: 12px; } .resume-title h2 { font-size: 16px; } .resume-inner a { font-size: 10px; padding-inline: 12px; }
-  .education-grid { grid-template-columns: 1fr; } .contact-layout { flex-direction: column; align-items: flex-start; gap: 25px; } .contact-layout h2 { font-size: 28px; } .contact-details a { font-size: 11px; } .footer-inner { font-size: 9px; }
+  .education-grid { grid-template-columns: 1fr; } .contact-layout { flex-direction: column; align-items: flex-start; gap: 25px; } .contact-layout h2 { font-size: 28px; } .contact-details a { font-size: 11px; } .footer-inner { font-size: 9px; } .mbit-card { flex-direction: column; align-items: flex-start; padding: 28px; gap: 22px; }
   .booking-sub { font-size: 11px; margin-top: -12px; } .booking-card { padding: 14px 12px 18px; } .calendly-fallback { font-size: 11px; }
   .video-sub { font-size: 11px; margin-top: -12px; } .video-card { padding: 10px; } .video-play { width: 54px; height: 54px; } .video-placeholder-label { font-size: 10px; } .footer-links { gap: 14px; }
 }
