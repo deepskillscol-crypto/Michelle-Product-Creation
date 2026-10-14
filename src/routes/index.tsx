@@ -1,9 +1,9 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useEffect, useState, type MouseEvent } from "react";
-import { ArrowDown, ArrowDownToLine, ArrowRight, ArrowUpRight, Award, BarChart3, BriefcaseBusiness, Check, FileText, GraduationCap, Handshake, Layers3, Linkedin, Mail, Menu, Moon, Presentation, Sun, X } from "lucide-react";
+import { useEffect, useRef, useState, type MouseEvent } from "react";
+import { ArrowDown, ArrowDownToLine, ArrowRight, ArrowUpRight, Award, BarChart3, BriefcaseBusiness, Calendar, Check, FileText, GraduationCap, Handshake, Layers3, Linkedin, Mail, Menu, Moon, Presentation, Sun, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { PORTFOLIO_DECK_URL, RESUME_URL, IS_PORTFOLIO_PLACEHOLDER } from "@/config/links";
+import { PORTFOLIO_DECK_URL, RESUME_URL, IS_PORTFOLIO_PLACEHOLDER, CALENDLY_URL } from "@/config/links";
 import { education, experienceTracks } from "@/config/profile";
 
 export const Route = createFileRoute("/")({
@@ -18,7 +18,7 @@ export const Route = createFileRoute("/")({
   component: Index,
 });
 
-const navigation = [["Impact", "impact"], ["Experience", "experience"], ["Portfolio", "portfolio"], ["Résumé", "resume"], ["Contact", "contact"]];
+const navigation = [["Impact", "impact"], ["Experience", "experience"], ["Portfolio", "portfolio"], ["Résumé", "resume"], ["Book a call", "book"], ["Contact", "contact"]];
 const services = [
   { icon: BarChart3, title: "Account growth", copy: "Diagnose why an account is—or isn’t—growing. Build options A/B/C, align on the strongest path, and turn the plan into action." },
   { icon: Handshake, title: "Client partnership", copy: "Be the trusted advisor clients keep. Lead hard conversations with data, connect strategy to their goals, and protect the relationship." },
