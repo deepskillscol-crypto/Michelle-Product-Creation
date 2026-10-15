@@ -2,8 +2,9 @@ export type Lang = "en" | "es" | "pt";
 export const LANGS: Lang[] = ["en", "es", "pt"];
 
 const en = {
+  techTitle: "My tech stack", techNote: "Projects · Training · Platforms", techSub: "The technologies behind my projects and the foundations I’m building on.",
   credTitle: 'Credentials & Learning', credSub: 'Always learning — across ad platforms, e-commerce, product and AI.', credStrip: 'Ad platforms certified:', credFilters: { all: 'All', events: 'Events & Talks', ads: 'Ad Platforms & E-commerce', product: 'Product, Tech & AI', languages: 'Languages', education: 'Education' }, credSpeaker: 'Speaker', credEvent: 'Event', credView: 'View credential',
-  nav: { impact: "Impact", experience: "Experience", portfolio: "Portfolio", resume: "Résumé", credentials: 'Credentials', code: "Code", book: "Book a call", contact: "Contact" },
+  nav: { impact: "Impact", experience: "Experience", portfolio: "Portfolio", techstack: "Tech stack", resume: "Résumé", credentials: 'Credentials', code: "Code", book: "Book a call", contact: "Contact" },
   repoTitle: "My code on GitHub", repoNote: "Public repository", repoDesc: "Personal brand site — Growth Partner · E-commerce & Ad Platforms · Product Ownership. Built with React, TypeScript & Tailwind.", repoView: "View repository", repoLive: "Open live site", repoChips: ["Public repository", "main branch", "React · TypeScript · Tailwind"], repoInsideTitle: "What's inside", repoInside: [["src/routes/index.tsx", "The full one-page site, section by section"], ["src/config/", "Links, profile content and the EN / ES / PT dictionaries"], ["src/data/credentials.ts", "Credentials & learning records, easy to extend"], ["src/styles.css", "Design tokens, glass cards, light and dark themes"]], repoRunLabel: "Run it locally", repoUpdated: "Last commit", repoLanguage: "Main language", repoAria: "Michelle Pulido's code repository on GitHub",
   langLabel: "Language",
   lightTheme: "Use light theme", darkTheme: "Use dark theme", openMenu: "Open menu", closeMenu: "Close menu",
@@ -43,8 +44,9 @@ const en = {
 export type Dict = typeof en;
 
 const es: Dict = {
+  techTitle: "Mi tech stack", techNote: "Proyectos · Formación · Plataformas", techSub: "Las tecnologías de mis proyectos y las bases sobre las que sigo construyendo.",
   credTitle: 'Credenciales y aprendizaje', credSub: 'Siempre aprendiendo — en plataformas publicitarias, e-commerce, producto e IA.', credStrip: 'Plataformas publicitarias certificadas:', credFilters: { all: 'Todas', events: 'Eventos y charlas', ads: 'Plataformas publicitarias y e-commerce', product: 'Producto, tecnología e IA', languages: 'Idiomas', education: 'Educación' }, credSpeaker: 'Ponente', credEvent: 'Evento', credView: 'Ver credencial',
-  nav: { impact: "Impacto", experience: "Experiencia", portfolio: "Portafolio", resume: "Hoja de vida", credentials: 'Credenciales', code: "Código", book: "Agendar llamada", contact: "Contacto" },
+  nav: { impact: "Impacto", experience: "Experiencia", portfolio: "Portafolio", techstack: "Tech stack", resume: "Hoja de vida", credentials: 'Credenciales', code: "Código", book: "Agendar llamada", contact: "Contacto" },
   repoTitle: "Mi código en GitHub", repoNote: "Repositorio público", repoDesc: "Sitio de marca personal — Growth Partner · E-commerce y plataformas publicitarias · Product Ownership. Construido con React, TypeScript y Tailwind.", repoView: "Ver repositorio", repoLive: "Abrir sitio en vivo", repoChips: ["Repositorio público", "rama main", "React · TypeScript · Tailwind"], repoInsideTitle: "Qué hay adentro", repoInside: [["src/routes/index.tsx", "El sitio completo de una página, sección por sección"], ["src/config/", "Enlaces, contenido de perfil y los diccionarios EN / ES / PT"], ["src/data/credentials.ts", "Credenciales y registros de aprendizaje, fáciles de ampliar"], ["src/styles.css", "Tokens de diseño, tarjetas de vidrio, temas claro y oscuro"]], repoRunLabel: "Ejecutarlo localmente", repoUpdated: "Último commit", repoLanguage: "Lenguaje principal", repoAria: "Repositorio de código de Michelle Pulido en GitHub",
   langLabel: "Idioma",
   lightTheme: "Usar tema claro", darkTheme: "Usar tema oscuro", openMenu: "Abrir menú", closeMenu: "Cerrar menú",
@@ -82,8 +84,9 @@ const es: Dict = {
 };
 
 const pt: Dict = {
+  techTitle: "Meu tech stack", techNote: "Projetos · Formação · Plataformas", techSub: "As tecnologias dos meus projetos e as bases sobre as quais continuo construindo.",
   credTitle: 'Credenciais e aprendizado', credSub: 'Sempre aprendendo — em plataformas de anúncios, e-commerce, produto e IA.', credStrip: 'Plataformas de anúncios certificadas:', credFilters: { all: 'Todas', events: 'Eventos e palestras', ads: 'Plataformas de anúncios e e-commerce', product: 'Produto, tecnologia e IA', languages: 'Idiomas', education: 'Formação' }, credSpeaker: 'Palestrante', credEvent: 'Evento', credView: 'Ver credencial',
-  nav: { impact: "Impacto", experience: "Experiência", portfolio: "Portfólio", resume: "Currículo", credentials: 'Credenciais', code: "Código", book: "Agendar conversa", contact: "Contato" },
+  nav: { impact: "Impacto", experience: "Experiência", portfolio: "Portfólio", techstack: "Tech stack", resume: "Currículo", credentials: 'Credenciais', code: "Código", book: "Agendar conversa", contact: "Contato" },
   repoTitle: "Meu código no GitHub", repoNote: "Repositório público", repoDesc: "Site de marca pessoal — Growth Partner · E-commerce e plataformas de anúncios · Product Ownership. Construído com React, TypeScript e Tailwind.", repoView: "Ver repositório", repoLive: "Abrir site ao vivo", repoChips: ["Repositório público", "branch main", "React · TypeScript · Tailwind"], repoInsideTitle: "O que tem dentro", repoInside: [["src/routes/index.tsx", "O site completo de uma página, seção por seção"], ["src/config/", "Links, conteúdo de perfil e os dicionários EN / ES / PT"], ["src/data/credentials.ts", "Credenciais e registros de aprendizado, fáceis de ampliar"], ["src/styles.css", "Tokens de design, cartões de vidro, temas claro e escuro"]], repoRunLabel: "Rodar localmente", repoUpdated: "Último commit", repoLanguage: "Linguagem principal", repoAria: "Repositório de código de Michelle Pulido no GitHub",
   langLabel: "Idioma",
   lightTheme: "Usar tema claro", darkTheme: "Usar tema escuro", openMenu: "Abrir menu", closeMenu: "Fechar menu",

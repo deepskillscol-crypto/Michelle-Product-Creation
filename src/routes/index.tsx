@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { PORTFOLIO_DECK_URL, RESUME_URL, IS_PORTFOLIO_PLACEHOLDER, CALENDLY_URL, LINKEDIN_URL, GITHUB_URL, GITHUB_REPO, GITHUB_API_URL, SITE_URL, INTRO_VIDEO_URL, WHATSAPP_URL, PROJECT_LINKS } from "@/config/links";
 import { credentials, AD_PLATFORMS_CERTIFIED, type CredentialCategory } from "@/data/credentials";
-import { getExperienceTracks, projects, testimonials, type ExperienceTrack } from "@/config/profile";
+import { getExperienceTracks, projects, techStack, testimonials, type ExperienceTrack } from "@/config/profile";
 import { dictionaries, LANGS, type Lang, type Dict } from "@/config/i18n";
 import michellePhoto from "@/assets/michelle-pulido.jpg.asset.json";
 import uniandesLogo from "@/assets/uniandes-logo.png.asset.json";
@@ -23,7 +23,7 @@ export const Route = createFileRoute("/")({
   component: Index,
 });
 
-const navIds = ["portfolio", "impact", "experience", "resume", "credentials", "code", "book", "contact"] as const;
+const navIds = ["portfolio", "techstack", "impact", "experience", "resume", "credentials", "code", "book", "contact"] as const;
 const serviceIcons = [BarChart3, Handshake, Layers3];
 
 function Index() {
@@ -148,6 +148,23 @@ function Index() {
                     <div><dt><span>02</span>{t.projectSolution}</dt><dd>{project.solution[lang]}</dd></div>
                     <div><dt><span>03</span>{t.projectResult}</dt><dd>{project.result[lang]}</dd></div>
                   </dl>
+                </article>;
+              })}
+            </div>
+          </div>
+        </section>
+        <section id="techstack" className="section tech-section" aria-labelledby="tech-heading">
+          <div className="container-site">
+            <div className="section-heading"><h2 id="tech-heading">{t.techTitle}</h2><span className="section-note">{t.techNote}</span></div>
+            <p className="projects-intro">{t.techSub}</p>
+            <div className="tech-grid">
+              {techStack.map((group, index) => {
+                const Icon = [Layers3, Bot, FileText, BarChart3][index] ?? Layers3;
+                return <article key={group.id} className="glass-card tech-card">
+                  <Icon size={23} className="text-primary" aria-hidden="true" />
+                  <h3>{group.title[lang]}</h3>
+                  <ul className="tech-tools">{group.tools.map((tool) => <li key={tool}>{tool}</li>)}</ul>
+                  <p>{group.evidence[lang]}</p>
                 </article>;
               })}
             </div>
