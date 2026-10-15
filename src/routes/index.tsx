@@ -158,7 +158,7 @@ function Index() {
             <div className="section-heading"><h2 id="tech-heading">{t.techTitle}</h2><span className="section-note">{t.techNote}</span></div>
             <p className="projects-intro">{t.techSub}</p>
             <div className="tech-grid">
-              {techStack.map((group, index) => {
+              {techStack.map((group) => {
                 const Icon = group.id === "ads" ? BarChart3 : group.id === "programming" ? Code2 : Layers3;
                 return <article key={group.id} className="glass-card tech-card">
                   <Icon size={23} className="text-primary" aria-hidden="true" />
