@@ -1,8 +1,9 @@
 # Roadmap
 
-- [ ] Highlight the AI Product Engineer transition and project portfolio in all three languages.
-- [ ] Feature My Job Lab with problem, solution, result, demo and honest GitHub availability.
-- [ ] Verify portfolio navigation and layout across languages and screen sizes.
+- [x] Highlight the AI Product Engineer transition and project portfolio in all three languages.
+- [x] Feature My Job Lab with problem, solution, result, demo and honest GitHub availability.
+- [x] Verify portfolio navigation and layout across languages and screen sizes.
+- [ ] Add My Job Lab's GitHub link — waiting for Michelle's repository URL.
 
 - [x] Add "MBIT" section (current Master's at Universidad de los Andes) with Uniandes logo
 - [x] Add Michelle's photo to the hero (circular, replacing placeholder)
