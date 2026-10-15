@@ -19,6 +19,14 @@ export type ExperienceTrack = {
 
 const same = (v: string): L => ({ en: v, es: v, pt: v });
 
+// Evidence describes project use or training, not an unsupported proficiency level.
+export const techStack: { id: string; title: L; tools: string[]; evidence: L }[] = [
+  { id: "web", title: { en: "Web product building", es: "Construcción de productos web", pt: "Construção de produtos web" }, tools: ["Lovable", "React", "TypeScript", "Tailwind CSS", "GitHub"], evidence: { en: "The stack behind this portfolio website, with its code on GitHub.", es: "Las tecnologías de este sitio de portafolio, con su código en GitHub.", pt: "As tecnologias deste site de portfólio, com seu código no GitHub." } },
+  { id: "ai", title: { en: "AI & agents", es: "IA y agentes", pt: "IA e agentes" }, tools: ["LAB10 AI Builders", "AI Fluency"], evidence: { en: "Training in prototyping, workflow automation and agent design. Applied to My Job Lab’s job-search agent.", es: "Formación en prototipado, automatización de flujos y diseño de agentes. Aplicada al agente de búsqueda de empleo de My Job Lab.", pt: "Formação em prototipagem, automação de fluxos e design de agentes. Aplicada ao agente de busca de emprego do My Job Lab." } },
+  { id: "programming", title: { en: "Programming foundations", es: "Fundamentos de programación", pt: "Fundamentos de programação" }, tools: ["Python", "Java"], evidence: { en: "Diplomas from Universidad Sergio Arboleda & MinTIC (Misión TIC), 2022.", es: "Diplomados de la Universidad Sergio Arboleda y MinTIC (Misión TIC), 2022.", pt: "Diplomas da Universidad Sergio Arboleda e MinTIC (Misión TIC), 2022." } },
+  { id: "platforms", title: { en: "Ad platforms & growth", es: "Plataformas publicitarias y crecimiento", pt: "Plataformas de anúncios e crescimento" }, tools: ["Microsoft Advertising", "Amazon Ads", "Amazon DSP", "Sizmek"], evidence: { en: "Platform certifications supporting my account-growth and e-commerce work.", es: "Certificaciones de plataformas que respaldan mi trabajo en crecimiento de cuentas y e-commerce.", pt: "Certificações de plataformas que apoiam meu trabalho em crescimento de contas e e-commerce." } },
+];
+
 export const projects: {
   id: "my-job-lab";
   name: string;
