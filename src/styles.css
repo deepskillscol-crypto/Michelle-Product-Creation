@@ -307,7 +307,7 @@ footer { padding-block: 23px; }
 .repo-head { display: flex; align-items: center; gap: .9rem; }
 .repo-logo { width: 52px; height: 52px; border-radius: 50%; flex: none; }
 .repo-id { min-width: 0; }
-.repo-name { display: inline-block; font-size: 1.05rem; font-weight: 700; color: var(--foreground); text-decoration: none; word-break: break-all; }
+.repo-name { display: inline-block; font-size: 1.05rem; font-weight: 700; color: var(--foreground); text-decoration: none; overflow-wrap: anywhere; }
 .repo-name:hover { color: var(--primary); }
 .repo-desc { margin-top: .3rem; font-size: .84rem; color: var(--muted-foreground); line-height: 1.55; }
 .repo-chips { display: flex; flex-wrap: wrap; gap: .4rem; }

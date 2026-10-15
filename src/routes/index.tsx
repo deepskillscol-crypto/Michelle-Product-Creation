@@ -190,8 +190,8 @@ function Index() {
           <div className="container-site">
             <SectionHeading number="05" title={t.testiTitle} id="testimonials-heading" note={t.testiNote} />
             <div className="testimonials-grid">
-              {testimonials.map((t) => (
-                <figure key={t.company + t.name} className="glass-card testimonial reveal">
+              {testimonials.map((t, index) => (
+                <figure key={`${t.company}-${index}`} className="glass-card testimonial reveal">
                   <Quote className="testimonial-icon" size={20} strokeWidth={1.6} />
                   <blockquote>{t.quote}</blockquote>
                   <figcaption><span className="testimonial-name">{t.name}</span><span className="testimonial-role">{t.role} · {t.company}</span></figcaption>
@@ -282,7 +282,7 @@ function RepoSection({ t }: { t: Dict }) {
         <div className="repo-head">
           <img className="repo-logo" src={githubLogo.url} alt="" width={52} height={52} loading="lazy" />
           <div className="repo-id">
-            <a className="repo-name" href={GITHUB_URL} target="_blank" rel="noopener noreferrer" aria-label={t.repoAria}>{GITHUB_REPO}</a>
+            <a className="repo-name" href={GITHUB_URL} target="_blank" rel="noopener noreferrer" aria-label={t.repoAria}>{GITHUB_REPO.replace("/", "/\u200B")}</a>
             <p className="repo-desc">{t.repoDesc}</p>
           </div>
         </div>
