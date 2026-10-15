@@ -19,6 +19,26 @@ export type ExperienceTrack = {
 
 const same = (v: string): L => ({ en: v, es: v, pt: v });
 
+export const projects: {
+  id: "my-job-lab";
+  name: string;
+  category: L;
+  highlight: L;
+  problem: L;
+  solution: L;
+  result: L;
+}[] = [
+  {
+    id: "my-job-lab",
+    name: "My Job Lab",
+    category: { en: "AI agent · Career tools", es: "Agente de IA · Empleo", pt: "Agente de IA · Carreira" },
+    highlight: { en: "An agent that searches for jobs for people.", es: "Un agente que busca trabajo para las personas.", pt: "Um agente que busca emprego para as pessoas." },
+    problem: { en: "Finding work means spending time searching for opportunities. I wanted to help people with that search.", es: "Encontrar trabajo implica dedicar tiempo a buscar oportunidades. Quise ayudar a las personas con esa búsqueda.", pt: "Encontrar trabalho exige dedicar tempo à busca de oportunidades. Quis ajudar as pessoas nessa busca." },
+    solution: { en: "I built My Job Lab with an AI agent inside the website that searches for jobs for its users.", es: "Construí My Job Lab con un agente de IA dentro de la página que busca empleo para sus usuarios.", pt: "Construí o My Job Lab com um agente de IA dentro do site que busca emprego para seus usuários." },
+    result: { en: "A built product with a job-search agent, available to explore in the demo. Usage and impact metrics are not yet documented.", es: "Un producto construido con un agente de búsqueda de empleo, disponible para explorar en la demo. Las métricas de uso e impacto aún no están documentadas.", pt: "Um produto construído com um agente de busca de emprego, disponível para explorar na demo. As métricas de uso e impacto ainda não estão documentadas." },
+  },
+];
+
 const tracks: TrackSource[] = [
   {
     id: "client-growth",

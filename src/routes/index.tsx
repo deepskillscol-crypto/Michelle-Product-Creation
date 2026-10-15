@@ -1,28 +1,28 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useRef, useState, type MouseEvent } from "react";
-import { ArrowDown, ArrowDownToLine, ArrowRight, ArrowUpRight, Award, BarChart3, BriefcaseBusiness, Calendar, Check, ChevronDown, FileText, GraduationCap, Handshake, Layers3, Linkedin, Mail, Menu, MessageCircle, Moon, Play, Presentation, Quote, Sun, X } from "lucide-react";
+import { ArrowDown, ArrowDownToLine, ArrowRight, ArrowUpRight, Award, BarChart3, Bot, BriefcaseBusiness, Calendar, Check, ChevronDown, FileText, Github, GraduationCap, Handshake, Layers3, Linkedin, Mail, Menu, MessageCircle, Moon, Play, Presentation, Quote, Sun, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { PORTFOLIO_DECK_URL, RESUME_URL, IS_PORTFOLIO_PLACEHOLDER, CALENDLY_URL, LINKEDIN_URL, INTRO_VIDEO_URL, WHATSAPP_URL } from "@/config/links";
+import { PORTFOLIO_DECK_URL, RESUME_URL, IS_PORTFOLIO_PLACEHOLDER, CALENDLY_URL, LINKEDIN_URL, INTRO_VIDEO_URL, WHATSAPP_URL, PROJECT_LINKS } from "@/config/links";
 import { credentials, AD_PLATFORMS_CERTIFIED, type CredentialCategory } from "@/data/credentials";
-import { getExperienceTracks, testimonials, type ExperienceTrack } from "@/config/profile";
+import { getExperienceTracks, projects, testimonials, type ExperienceTrack } from "@/config/profile";
 import { dictionaries, LANGS, type Lang, type Dict } from "@/config/i18n";
 import michellePhoto from "@/assets/michelle-pulido.jpg.asset.json";
 import uniandesLogo from "@/assets/uniandes-logo.png.asset.json";
 
 export const Route = createFileRoute("/")({
   head: () => ({ meta: [
-    { title: "Michelle Pulido | Growth Partner & Product Ownership" },
-    { name: "description", content: "Michelle Pulido turns account data into growth plans clients trust. 8+ years across Amazon, Microsoft Advertising partner operations, SaaS, and fintech." },
-    { property: "og:title", content: "Michelle Pulido | Growth Partner & Product Ownership" },
-    { property: "og:description", content: "Account growth. Trusted client partnerships. Product thinking. Explore Michelle Pulido’s experience across U.S. and LATAM markets." },
+    { title: "Michelle Pulido | AI Product Engineering Portfolio" },
+    { name: "description", content: "Michelle Pulido is transitioning to AI Product Engineer. Explore My Job Lab, her job-search agent project, and her background in growth and product." },
+    { property: "og:title", content: "Michelle Pulido | AI Product Engineering Portfolio" },
+    { property: "og:description", content: "Explore Michelle’s built projects, starting with My Job Lab: a website with an AI agent that helps people search for jobs." },
     { property: "og:type", content: "website" },
     { name: "twitter:card", content: "summary_large_image" },
   ] }),
   component: Index,
 });
 
-const navIds = ["impact", "experience", "portfolio", "resume", "credentials", "book", "contact"] as const;
+const navIds = ["portfolio", "impact", "experience", "resume", "credentials", "book", "contact"] as const;
 const serviceIcons = [BarChart3, Handshake, Layers3];
 
 function Index() {
@@ -111,8 +111,9 @@ function Index() {
               <div className="eyebrow"><span className="eyebrow-line" />{t.eyebrow}</div>
               <h1 id="hero-heading">{t.heroTitle}</h1>
               <p className="hero-subtitle">{t.heroSubtitle}</p>
+              <p className="hero-focus">{t.heroFocus}</p>
               <p className="hero-details">{t.heroDetails}</p>
-              <div className="hero-buttons"><Button asChild variant="hero" size="lg"><a {...deckLink}>{t.viewDeck}<ArrowUpRight /></a></Button><Button asChild variant="heroOutline" size="lg"><a href="#book"><Calendar />{t.bookCall}</a></Button><Button asChild variant="heroOutline" size="lg"><a {...resumeLink}><ArrowDownToLine />{t.downloadResume}</a></Button></div>
+              <div className="hero-buttons"><Button asChild variant="hero" size="lg"><a href="#portfolio">{t.projectsCta}<ArrowDown /></a></Button><Button asChild variant="heroOutline" size="lg"><a href="#book"><Calendar />{t.bookCall}</a></Button><Button asChild variant="heroOutline" size="lg"><a {...resumeLink}><ArrowDownToLine />{t.downloadResume}</a></Button></div>
               <a href={LINKEDIN_URL} target="_blank" rel="noopener noreferrer" aria-label={t.linkedinAria} className="hero-linkedin"><Linkedin size={14} />LinkedIn<ArrowUpRight size={12} /></a>
             </div>
             <div className="portrait-area reveal">
@@ -120,11 +121,39 @@ function Index() {
               <div className="portrait-badge"><span className="status-dot" />{t.badge}</div>
             </div>
           </div>
-          <a href="#impact" className="hero-bottom">{t.explore}<ArrowDown size={13} /></a>
+          <a href="#portfolio" className="hero-bottom">{t.projectsCta}<ArrowDown size={13} /></a>
+        </section>
+        <section id="portfolio" className="section projects-section" aria-labelledby="portfolio-heading">
+          <div className="container-site">
+            <SectionHeading number="01" title={t.projectsTitle} id="portfolio-heading" note={t.projectsNote} />
+            <p className="projects-intro">{t.projectsIntro}</p>
+            <div className="projects-grid">
+              {projects.map((project) => {
+                const links = PROJECT_LINKS[project.id];
+                return <article key={project.id} className="glass-card project-card">
+                  <div className="project-overview">
+                    <span className="project-featured"><Bot size={16} />{t.projectFeatured}</span>
+                    <h3>{project.name}</h3>
+                    <p className="project-category">{project.category[lang]}</p>
+                    <p className="project-highlight">{project.highlight[lang]}</p>
+                    <div className="project-actions">
+                      <Button asChild><a href={links.demo} target="_blank" rel="noopener noreferrer" aria-label={`${t.projectDemo}: ${project.name}`}>{t.projectDemo}<ArrowUpRight /></a></Button>
+                      {links.github ? <Button asChild variant="outline"><a href={links.github} target="_blank" rel="noopener noreferrer" aria-label={`${t.projectGithub}: ${project.name}`}><Github />{t.projectGithub}</a></Button> : <span className="project-link-pending"><Github size={15} />{t.projectGithubPending}</span>}
+                    </div>
+                  </div>
+                  <dl className="project-case-study">
+                    <div><dt><span>01</span>{t.projectProblem}</dt><dd>{project.problem[lang]}</dd></div>
+                    <div><dt><span>02</span>{t.projectSolution}</dt><dd>{project.solution[lang]}</dd></div>
+                    <div><dt><span>03</span>{t.projectResult}</dt><dd>{project.result[lang]}</dd></div>
+                  </dl>
+                </article>;
+              })}
+            </div>
+          </div>
         </section>
         <section className="section video-section" aria-labelledby="video-heading">
           <div className="container-site">
-            <SectionHeading number="00" title={t.videoTitle} id="video-heading" note={t.videoNote} />
+            <SectionHeading number="02" title={t.videoTitle} id="video-heading" note={t.videoNote} />
             <p className="video-sub">{t.videoSub}</p>
             <IntroVideo t={t} />
             <p className="video-live-link">{t.liveTalk} <a href="#book">{t.bookCall}<ArrowRight size={12} /></a></p>
@@ -139,10 +168,10 @@ function Index() {
           </div>
         </section>
         <section className="section" aria-labelledby="what-heading">
-          <div className="container-site"><SectionHeading number="01" title={t.whatTitle} id="what-heading" note={t.whatNote} /><div className="services-grid">{t.services.map(([title, copy], index) => { const Icon = serviceIcons[index] ?? BarChart3; return <article key={title} className="glass-card service reveal"><span className="service-index">0{index + 1}</span><div className="service-icon"><Icon size={21} strokeWidth={1.6} /></div><h3>{title}</h3><p>{copy}</p></article>; })}</div></div>
+          <div className="container-site"><SectionHeading number="03" title={t.whatTitle} id="what-heading" note={t.whatNote} /><div className="services-grid">{t.services.map(([title, copy], index) => { const Icon = serviceIcons[index] ?? BarChart3; return <article key={title} className="glass-card service reveal"><span className="service-index">0{index + 1}</span><div className="service-icon"><Icon size={21} strokeWidth={1.6} /></div><h3>{title}</h3><p>{copy}</p></article>; })}</div></div>
         </section>
         <section id="experience" className="section experience-section" aria-labelledby="experience-heading">
-          <div className="container-site"><SectionHeading number="02" title={t.expTitle} id="experience-heading" note={t.expNote} />
+          <div className="container-site"><SectionHeading number="04" title={t.expTitle} id="experience-heading" note={t.expNote} />
             <p className="track-connector">{t.connector}</p>
             <div className="track-toggle" role="tablist" aria-label={t.tracksAria}>
               {experienceTracks.map((track) => <button key={track.id} type="button" role="tab" aria-selected={activeTrack === track.id} className={`track-toggle-btn track-accent-${track.accent}${activeTrack === track.id ? " is-active" : ""}`} onClick={() => setActiveTrack(track.id)}>{track.name}</button>)}
@@ -157,7 +186,7 @@ function Index() {
         </section>
         <section className="section testimonials-section" aria-labelledby="testimonials-heading">
           <div className="container-site">
-            <SectionHeading number="03" title={t.testiTitle} id="testimonials-heading" note={t.testiNote} />
+            <SectionHeading number="05" title={t.testiTitle} id="testimonials-heading" note={t.testiNote} />
             <div className="testimonials-grid">
               {testimonials.map((t) => (
                 <figure key={t.company + t.name} className="glass-card testimonial reveal">
@@ -168,9 +197,6 @@ function Index() {
               ))}
             </div>
           </div>
-        </section>
-        <section id="portfolio" className="section" aria-labelledby="portfolio-heading">
-          <div className="container-site"><SectionHeading number="04" title={t.portTitle} id="portfolio-heading" note={t.portNote} /><div className="portfolio-layout"><article className="glass-card portfolio-info reveal"><div className="service-icon"><Presentation size={21} strokeWidth={1.6} /></div><h3>{t.deckTitle}</h3><p>{t.deckCopy}</p><Button asChild><a {...deckLink}>{t.openDeck}<ArrowUpRight /></a></Button></article><div className="deck-preview reveal">{IS_PORTFOLIO_PLACEHOLDER ? <><div className="deck-cover"><div className="deck-cover-label"><span>MICHELLE PULIDO</span><span>PORTFOLIO / 2026</span></div><div><h3>Growth Partner<br />portfolio.</h3><p>{t.deckTagline}</p></div><div className="deck-cover-footer"><span>U.S. + LATAM</span><ArrowUpRight size={19} /></div></div><span className="deck-placeholder-label">{t.deckSoon}</span></> : <iframe src={PORTFOLIO_DECK_URL} title="Michelle Pulido Growth Partner portfolio deck" loading="lazy" allowFullScreen referrerPolicy="strict-origin-when-cross-origin" />}</div></div></div>
         </section>
         <section id="resume" className="resume-band" aria-labelledby="resume-heading"><div className="container-site resume-inner"><div className="resume-title"><FileText className="text-primary" size={28} strokeWidth={1.4} /><div><h2 id="resume-heading">{t.resumeTitle}</h2><p>{t.resumeUpdated}</p></div></div><Button asChild variant="outline"><a {...resumeLink}><ArrowDownToLine />{t.downloadPdf}</a></Button></div></section>
         <section className="section mbit-section" aria-labelledby="mbit-heading">
@@ -187,7 +213,7 @@ function Index() {
           </div>
         </section>
         <CredentialsSection t={t} />
-        <section ref={bookSectionRef} id="book" className="section booking-section" aria-labelledby="book-heading"><div className="container-site"><SectionHeading number="06" title={t.bookTitle} id="book-heading" note={t.bookNote} /><p className="booking-sub">{t.bookSub}</p><div className="booking-chips">{t.bookChips.map((c) => <span key={c}>{c}</span>)}</div><article className={`glass-card booking-card${calendlyLoaded ? " calendly-loaded" : ""}`}><div className="calendly-inline-widget" data-url={`${CALENDLY_URL}?hide_gdpr_banner=1&primary_color=2662d9`} style={{ minWidth: "320px", height: "700px" }} /><Button asChild className="calendly-fallback" variant="outline"><a href={CALENDLY_URL} target="_blank" rel="noopener noreferrer">{t.openScheduling}<ArrowUpRight /></a></Button></article></div></section>
+        <section ref={bookSectionRef} id="book" className="section booking-section" aria-labelledby="book-heading"><div className="container-site"><SectionHeading number="07" title={t.bookTitle} id="book-heading" note={t.bookNote} /><p className="booking-sub">{t.bookSub}</p><div className="booking-chips">{t.bookChips.map((c) => <span key={c}>{c}</span>)}</div><article className={`glass-card booking-card${calendlyLoaded ? " calendly-loaded" : ""}`}><div className="calendly-inline-widget" data-url={`${CALENDLY_URL}?hide_gdpr_banner=1&primary_color=2662d9`} style={{ minWidth: "320px", height: "700px" }} /><Button asChild className="calendly-fallback" variant="outline"><a href={CALENDLY_URL} target="_blank" rel="noopener noreferrer">{t.openScheduling}<ArrowUpRight /></a></Button></article></div></section>
         <section id="contact" className="contact-section" aria-labelledby="contact-heading"><div className="container-site contact-layout"><div><div className="eyebrow text-primary"><span className="eyebrow-line" />{t.connect}</div><h2 id="contact-heading">{t.contactTitle1}<br />{t.contactTitle2}</h2><p className="location-note">{t.location}</p></div><div className="contact-details"><a href="mailto:michelleescobar2703@gmail.com"><Mail size={17} />michelleescobar2703@gmail.com<ArrowUpRight size={14} /></a><a href={LINKEDIN_URL} target="_blank" rel="noopener noreferrer" aria-label={t.linkedinAria}><Linkedin size={17} />{t.linkedinConnect}<ArrowUpRight size={14} /></a><a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer" aria-label={t.whatsappAria}><MessageCircle size={17} />{t.whatsappChat}<ArrowUpRight size={14} /></a></div></div></section>
       </main>
       <footer><div className="container-site footer-inner"><span>© 2026 Michelle Pulido.</span><div className="footer-links"><a href={LINKEDIN_URL} target="_blank" rel="noopener noreferrer" aria-label={t.linkedinAria} className="flex items-center gap-2"><Linkedin size={12} />LinkedIn</a><a href="#home" className="flex items-center gap-2">{t.backTop}<ArrowRight size={12} className="-rotate-90" /></a></div></div></footer>
@@ -220,7 +246,7 @@ function CredentialsSection({ t }: { t: Dict }) {
   const items = credentials.filter((c) => filter === "all" || c.category === filter).sort((a, b) => b.sortDate.localeCompare(a.sortDate));
   return (
     <section id="credentials" className="section" aria-labelledby="credentials-heading"><div className="container-site">
-      <SectionHeading number="05" title={t.credTitle} id="credentials-heading" />
+       <SectionHeading number="06" title={t.credTitle} id="credentials-heading" />
       <p className="booking-sub">{t.credSub}</p>
       <p className="cred-strip"><Award size={15} />{t.credStrip} <strong>{AD_PLATFORMS_CERTIFIED}</strong></p>
       <div className="cred-filters" role="group" aria-label={t.credTitle}>{credentialFilters.map((f) => <button key={f} type="button" aria-pressed={filter === f} className={filter === f ? "is-active" : ""} onClick={() => setFilter(f)}>{t.credFilters[f]}</button>)}</div>

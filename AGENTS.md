@@ -12,5 +12,6 @@
 ## Application rules
 - Keep this personal brand site as one index route with section anchors, since the requested experience is one scrolling page.
 - Keep outbound document URLs in src/config/links.ts and career content in src/config/profile.ts so downloads and previews share their sources.
+- Keep portfolio project links in src/config/links.ts and localized project records in src/config/profile.ts; render projects from those records so additional projects use the same case-study structure without duplicating markup.
 - Define visual styles and both color themes in src/styles.css; use shared Button variants for interactive controls.
 - Keep UI copy for all languages (en/es/pt) in src/config/i18n.ts and localized career content in src/config/profile.ts, so every language stays complete and in sync.
