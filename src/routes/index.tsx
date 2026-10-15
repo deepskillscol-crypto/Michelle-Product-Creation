@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useRef, useState, type MouseEvent } from "react";
-import { ArrowDown, ArrowDownToLine, ArrowRight, ArrowUpRight, Award, BarChart3, Bot, BriefcaseBusiness, Calendar, Check, ChevronDown, FileText, Github, GraduationCap, Handshake, Layers3, Linkedin, Mail, Menu, MessageCircle, Moon, Play, Presentation, Quote, Sun, X } from "lucide-react";
+import { ArrowDown, ArrowDownToLine, ArrowRight, ArrowUpRight, Award, BarChart3, Bot, BriefcaseBusiness, Calendar, Check, ChevronDown, Code2, FileText, Github, GraduationCap, Handshake, Layers3, Linkedin, Mail, Menu, MessageCircle, Moon, Play, Presentation, Quote, Sun, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { PORTFOLIO_DECK_URL, RESUME_URL, IS_PORTFOLIO_PLACEHOLDER, CALENDLY_URL, LINKEDIN_URL, GITHUB_URL, GITHUB_REPO, GITHUB_API_URL, SITE_URL, INTRO_VIDEO_URL, WHATSAPP_URL, PROJECT_LINKS } from "@/config/links";
@@ -159,7 +159,7 @@ function Index() {
             <p className="projects-intro">{t.techSub}</p>
             <div className="tech-grid">
               {techStack.map((group, index) => {
-                const Icon = [Layers3, Bot, FileText, BarChart3][index] ?? Layers3;
+                const Icon = group.id === "ads" ? BarChart3 : group.id === "programming" ? Code2 : Layers3;
                 return <article key={group.id} className="glass-card tech-card">
                   <Icon size={23} className="text-primary" aria-hidden="true" />
                   <h3>{group.title[lang]}</h3>
