@@ -3,6 +3,7 @@ export const PORTFOLIO_DECK_URL = "https://www.canva.com/design/PORTFOLIO_DECK_I
 export const RESUME_URL = "/resume/Michelle-Pulido-Resume.pdf";
 export const CALENDLY_URL = "https://calendly.com/michelleescobar2703/30min";
 export const LINKEDIN_URL = "https://www.linkedin.com/in/michellepulidoescobar/";
+export const GITHUB_URL = "https://github.com/deepskillscol-crypto/pulido-impact-hub";
 export const WHATSAPP_URL = "https://wa.me/573243682201";
 // Paste a YouTube, Vimeo, or Loom share link — or a direct .mp4 URL — and the intro video appears automatically.
 export const INTRO_VIDEO_URL = "";
