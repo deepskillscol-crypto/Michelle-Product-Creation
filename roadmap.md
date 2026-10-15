@@ -9,3 +9,4 @@
 
 - [x] Add "MBIT" section (current Master's at Universidad de los Andes) with Uniandes logo
 - [x] Add Michelle's photo to the hero (circular, replacing placeholder)
+- [x] Add "My code on GitHub" repository section with logo, links and file map

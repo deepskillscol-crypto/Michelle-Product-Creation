@@ -3,12 +3,13 @@ import { useEffect, useRef, useState, type MouseEvent } from "react";
 import { ArrowDown, ArrowDownToLine, ArrowRight, ArrowUpRight, Award, BarChart3, Bot, BriefcaseBusiness, Calendar, Check, ChevronDown, FileText, Github, GraduationCap, Handshake, Layers3, Linkedin, Mail, Menu, MessageCircle, Moon, Play, Presentation, Quote, Sun, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { PORTFOLIO_DECK_URL, RESUME_URL, IS_PORTFOLIO_PLACEHOLDER, CALENDLY_URL, LINKEDIN_URL, GITHUB_URL, INTRO_VIDEO_URL, WHATSAPP_URL, PROJECT_LINKS } from "@/config/links";
+import { PORTFOLIO_DECK_URL, RESUME_URL, IS_PORTFOLIO_PLACEHOLDER, CALENDLY_URL, LINKEDIN_URL, GITHUB_URL, GITHUB_REPO, GITHUB_API_URL, SITE_URL, INTRO_VIDEO_URL, WHATSAPP_URL, PROJECT_LINKS } from "@/config/links";
 import { credentials, AD_PLATFORMS_CERTIFIED, type CredentialCategory } from "@/data/credentials";
 import { getExperienceTracks, projects, testimonials, type ExperienceTrack } from "@/config/profile";
 import { dictionaries, LANGS, type Lang, type Dict } from "@/config/i18n";
 import michellePhoto from "@/assets/michelle-pulido.jpg.asset.json";
 import uniandesLogo from "@/assets/uniandes-logo.png.asset.json";
+import githubLogo from "@/assets/github-logo.png.asset.json";
 
 export const Route = createFileRoute("/")({
   head: () => ({ meta: [
@@ -22,7 +23,7 @@ export const Route = createFileRoute("/")({
   component: Index,
 });
 
-const navIds = ["portfolio", "impact", "experience", "resume", "credentials", "book", "contact"] as const;
+const navIds = ["portfolio", "impact", "experience", "resume", "credentials", "code", "book", "contact"] as const;
 const serviceIcons = [BarChart3, Handshake, Layers3];
 
 function Index() {
@@ -189,8 +190,8 @@ function Index() {
           <div className="container-site">
             <SectionHeading number="05" title={t.testiTitle} id="testimonials-heading" note={t.testiNote} />
             <div className="testimonials-grid">
-              {testimonials.map((t) => (
-                <figure key={t.company + t.name} className="glass-card testimonial reveal">
+              {testimonials.map((t, index) => (
+                <figure key={`${t.company}-${index}`} className="glass-card testimonial reveal">
                   <Quote className="testimonial-icon" size={20} strokeWidth={1.6} />
                   <blockquote>{t.quote}</blockquote>
                   <figcaption><span className="testimonial-name">{t.name}</span><span className="testimonial-role">{t.role} · {t.company}</span></figcaption>
@@ -214,6 +215,7 @@ function Index() {
           </div>
         </section>
         <CredentialsSection t={t} />
+        <RepoSection t={t} />
         <section ref={bookSectionRef} id="book" className="section booking-section" aria-labelledby="book-heading"><div className="container-site"><SectionHeading number="07" title={t.bookTitle} id="book-heading" note={t.bookNote} /><p className="booking-sub">{t.bookSub}</p><div className="booking-chips">{t.bookChips.map((c) => <span key={c}>{c}</span>)}</div><article className={`glass-card booking-card${calendlyLoaded ? " calendly-loaded" : ""}`}><div className="calendly-inline-widget" data-url={`${CALENDLY_URL}?hide_gdpr_banner=1&primary_color=2662d9`} style={{ minWidth: "320px", height: "700px" }} /><Button asChild className="calendly-fallback" variant="outline"><a href={CALENDLY_URL} target="_blank" rel="noopener noreferrer">{t.openScheduling}<ArrowUpRight /></a></Button></article></div></section>
         <section id="contact" className="contact-section" aria-labelledby="contact-heading"><div className="container-site contact-layout"><div><div className="eyebrow text-primary"><span className="eyebrow-line" />{t.connect}</div><h2 id="contact-heading">{t.contactTitle1}<br />{t.contactTitle2}</h2><p className="location-note">{t.location}</p></div><div className="contact-details"><a href="mailto:michelleescobar2703@gmail.com"><Mail size={17} />michelleescobar2703@gmail.com<ArrowUpRight size={14} /></a><a href={LINKEDIN_URL} target="_blank" rel="noopener noreferrer" aria-label={t.linkedinAria}><Linkedin size={17} />{t.linkedinConnect}<ArrowUpRight size={14} /></a><a href={GITHUB_URL} target="_blank" rel="noopener noreferrer" aria-label={t.githubAria}><Github size={17} />{t.githubCode}<ArrowUpRight size={14} /></a><a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer" aria-label={t.whatsappAria}><MessageCircle size={17} />{t.whatsappChat}<ArrowUpRight size={14} /></a></div></div></section>
       </main>
@@ -259,6 +261,48 @@ function CredentialsSection({ t }: { t: Dict }) {
           <div className="cred-bottom"><span className="cred-date">{c.date}</span>{c.url && <a href={c.url} target="_blank" rel="noopener noreferrer">{t.credView}<ArrowUpRight size={12} /></a>}</div>
         </article>
       ))}</div>
+    </div></section>
+  );
+}
+function RepoSection({ t }: { t: Dict }) {
+  const [stats, setStats] = useState<{ language: string; pushedAt: string } | null>(null);
+  useEffect(() => {
+    let alive = true;
+    fetch(GITHUB_API_URL, { headers: { Accept: "application/vnd.github+json" } })
+      .then((r) => (r.ok ? r.json() : null))
+      .then((d) => { if (alive && d) setStats({ language: typeof d.language === "string" ? d.language : "", pushedAt: typeof d.pushed_at === "string" ? d.pushed_at : "" }); })
+      .catch(() => {});
+    return () => { alive = false; };
+  }, []);
+  const updated = stats?.pushedAt ? new Date(stats.pushedAt).toLocaleDateString("en-US", { year: "numeric", month: "short", day: "numeric" }) : "";
+  return (
+    <section id="code" className="section repo-section" aria-labelledby="repo-heading"><div className="container-site">
+      <SectionHeading number="07" title={t.repoTitle} id="repo-heading" note={t.repoNote} />
+      <article className="glass-card repo-card reveal">
+        <div className="repo-head">
+          <img className="repo-logo" src={githubLogo.url} alt="" width={52} height={52} loading="lazy" />
+          <div className="repo-id">
+            <a className="repo-name" href={GITHUB_URL} target="_blank" rel="noopener noreferrer" aria-label={t.repoAria}>{GITHUB_REPO.replace("/", "/\u200B")}</a>
+            <p className="repo-desc">{t.repoDesc}</p>
+          </div>
+        </div>
+        <div className="repo-chips">{t.repoChips.map((c) => <span key={c}>{c}</span>)}</div>
+        <div className="repo-actions">
+          <Button asChild><a href={GITHUB_URL} target="_blank" rel="noopener noreferrer" aria-label={t.repoAria}><Github />{t.repoView}<ArrowUpRight /></a></Button>
+          <Button asChild variant="outline"><a href={SITE_URL} target="_blank" rel="noopener noreferrer">{t.repoLive}<ArrowUpRight /></a></Button>
+        </div>
+        <div className="repo-body">
+          <div className="repo-inside">
+            <h3 className="repo-inside-title">{t.repoInsideTitle}</h3>
+            <ul className="repo-files">{t.repoInside.map((pair) => <li key={`${pair[0]}`}><code>{pair[0]}</code><span>{pair[1]}</span></li>)}</ul>
+            <p className="repo-run"><span>{t.repoRunLabel}</span><code>{"npm install && npm run dev"}</code></p>
+          </div>
+          {stats && <dl className="repo-stats">
+            {stats.language && <div><dt>{t.repoLanguage}</dt><dd>{stats.language}</dd></div>}
+            {updated && <div><dt>{t.repoUpdated}</dt><dd>{updated}</dd></div>}
+          </dl>}
+        </div>
+      </article>
     </div></section>
   );
 }
