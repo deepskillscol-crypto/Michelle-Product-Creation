@@ -10,5 +10,5 @@
 - [x] Add "MBIT" section (current Master's at Universidad de los Andes) with Uniandes logo
 - [x] Add Michelle's photo to the hero (circular, replacing placeholder)
 - [x] Add "My code on GitHub" repository section with logo, links and file map
-- [x] Add a multilingual tech-stack section using documented projects and training.
+- [x] Add a multilingual tech-stack section listing tools and platforms only (no courses or certifications).
 - [ ] Complete the tech-stack section against Michelle's CV — waiting for the CV or its technology list.
