@@ -76,6 +76,11 @@ a { text-decoration: none; }
 .nav-links a:hover { color: var(--primary); }
 .nav-actions { display: flex; gap: 10px; align-items: center; }
 .menu-trigger { display: none; }
+@media (max-width: 1280px) {
+  .menu-trigger { display: inline-flex; }
+  .nav-links { display: none; }
+  .nav-links.is-open { position: absolute; display: flex; top: 82px; left: 0; right: 0; padding: 24px; flex-direction: column; gap: 20px; background: var(--background); border-bottom: 1px solid var(--border); }
+}
 .hero { position: relative; overflow: hidden; isolation: isolate; background: var(--hero-gradient); color: var(--hero-foreground); }
 .hero-inner { display: grid; grid-template-columns: 1.65fr 1fr; align-items: center; gap: 50px; min-height: 590px; padding-block: 76px 70px; }
 .hero-copy { position: relative; z-index: 2; }
